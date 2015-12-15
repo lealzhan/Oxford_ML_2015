@@ -1,0 +1,5 @@
+/* Padding on tables in the content area */
+#maincontent table td, #maincontent table th
+{
+	padding: 4px 8px;
+}
