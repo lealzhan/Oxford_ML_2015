@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)https://www.zhihu.com/question/27393324 -->
+<html lang="zh-CN" dropeffect="none" class="js  show-app-promotion-bar cssanimations csstransforms csstransitions flexbox no-touchevents no-mobile"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+
+<title>有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎</title>
+
+<meta name="apple-itunes-app" content="app-id=432274380, app-argument=zhihu://questions/27393324">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="mobile-agent" content="format=html5;url=https://www.zhihu.com/question/27393324">
+<meta id="znonce" name="znonce" content="659d7225a95c4765af88a99a528b50a2">
+<link rel="apple-touch-icon-precomposed" href="http://static.zhihu.com/static/img/ios/zhihu(57px).png">
+<link rel="apple-touch-icon-precomposed" href="http://static.zhihu.com/static/img/ios/zhihu(72px).png" sizes="72x72">
+<link rel="apple-touch-icon-precomposed" href="http://static.zhihu.com/static/img/ios/zhihu(76px).png" sizes="76x76">
+<link rel="apple-touch-icon-precomposed" href="http://static.zhihu.com/static/img/ios/zhihu(114px).png" sizes="114x114">
+<link rel="apple-touch-icon-precomposed" href="http://static.zhihu.com/static/img/ios/zhihu(120px).png" sizes="120x120">
+<link rel="apple-touch-icon-precomposed" href="http://static.zhihu.com/static/img/ios/zhihu(152px).png" sizes="152x152">
+
+
+<link rel="shortcut icon" href="https://static.zhihu.com/static/favicon.ico" type="image/x-icon">
+
+<link rel="search" type="application/opensearchdescription+xml" href="https://static.zhihu.com/static/search.xml" title="知乎">
+<link rel="stylesheet" href="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/z.7606be20.css">
+
+
+
+
+
+<!--[if lt IE 9]>
+<script src="https://static.zhihu.com/static/components/respond/dest/respond.min.js"></script>
+<link href="https://static.zhihu.com/static/components/respond/cross-domain/respond-proxy.html" id="respond-proxy" rel="respond-proxy" />
+<link href="/static/components/respond/cross-domain/respond.proxy.gif" id="respond-redirect" rel="respond-redirect" />
+<script src="/static/components/respond/cross-domain/respond.proxy.js"></script>
+<![endif]-->
+<script type="text/javascript" async="" src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/za-0.1.1.min.js"></script><script async="" src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/ga.js"></script><script src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/instant.4b42dd60.js"></script>
+
+
+
+
+<style type="text/css"></style><style>html.modal-open {overflow:hidden}html.modal-doc-overflow {margin-right:0px}html.modal-doc-overflow .modal-translate-shifting.sticky {transition-property:none; transform:translateX(-0px)}html.modal-doc-overflow .modal-shifting {position:relative; right:0px}</style></head>
+
+<body class="zhi ">
+
+
+
+<div role="navigation" class="zu-top">
+<div class="zg-wrap modal-shifting clearfix" id="zh-top-inner">
+<a href="https://www.zhihu.com/" class="zu-top-link-logo" id="zh-top-link-logo" data-za-c="view_home" data-za-a="visit_home" data-za-l="top_navigation_zhihu_logo">知乎</a>
+
+<div class="top-nav-profile">
+<a href="https://www.zhihu.com/people/lealzhan" class="zu-top-nav-userinfo " id=":0" role="button" aria-haspopup="true" aria-activedescendant="">
+<span class="name">Ling Zhan</span>
+<img class="avatar avatar-s" alt="Ling Zhan" src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/68c78d34c8bfee221f8814680c62da18_s.jpg" srcset="https://pic1.zhimg.com/68c78d34c8bfee221f8814680c62da18_xs.jpg 2x">
+<span id="zh-top-nav-new-pm" class="zg-noti-number zu-top-nav-pm-count" style="visibility:hidden" data-count="0">
+
+</span>
+</a>
+<ul class="top-nav-dropdown" id="top-nav-profile-dropdown" aria-labelledby=":0">
+<li>
+<a href="https://www.zhihu.com/people/lealzhan" tabindex="-1" id=":1">
+<i class="zg-icon zg-icon-dd-home"></i>我的主页
+</a>
+</li>
+
+<li>
+<a href="https://www.zhihu.com/inbox" tabindex="-1" id=":2">
+<i class="zg-icon zg-icon-dd-pm"></i>私信
+<span id="zh-top-nav-pm-count" class="zu-top-nav-pm-count zg-noti-number" style="visibility:hidden" data-count="0">
+
+</span>
+</a>
+</li>
+<li>
+<a href="https://www.zhihu.com/settings" tabindex="-1" id=":3">
+<i class="zg-icon zg-icon-dd-settings"></i>设置
+</a>
+</li>
+<li>
+<a href="https://www.zhihu.com/logout" tabindex="-1" id=":4">
+<i class="zg-icon zg-icon-dd-logout"></i>退出
+</a>
+</li>
+</ul>
+
+</div>
+
+
+
+<button class="zu-top-add-question" id="zu-top-add-question">提问</button>
+
+
+<div role="search" id="zh-top-search" class="zu-top-search">
+<form method="GET" action="https://www.zhihu.com/search" id="zh-top-search-form" class="zu-top-search-form">
+
+
+
+<input type="hidden" name="type" value="question">
+<label for="q" class="hide-text">知乎搜索</label><input type="text" class="zu-top-search-input" id="q" name="q" autocomplete="off" value="" placeholder="搜索问题、话题或人" role="combobox" aria-autocomplete="list">
+<button type="submit" class="zu-top-search-button"><span class="hide-text">搜索</span><span class="sprite-global-icon-magnifier-dark"></span></button>
+</form>
+</div>
+
+
+
+<div id="zg-top-nav" class="zu-top-nav">
+<ul class="zu-top-nav-ul zg-clear">
+
+<li class="zu-top-nav-li " id="zh-top-nav-home">
+<a class="zu-top-nav-link" href="https://www.zhihu.com/" id="zh-top-link-home" data-za-c="view_home" data-za-a="visit_home" data-za-l="top_navigation_home">首页</a>
+</li>
+<li class="top-nav-topic-selector zu-top-nav-li " id="zh-top-nav-topic">
+<a class="zu-top-nav-link" href="https://www.zhihu.com/topic" id="top-nav-dd-topic">话题</a>
+
+</li>
+<li class="zu-top-nav-li " id="zh-top-nav-explore">
+<a class="zu-top-nav-link" href="https://www.zhihu.com/explore">发现</a>
+</li>
+
+<li class="top-nav-noti zu-top-nav-li ">
+<a class="zu-top-nav-link" href="javascript:;" id="zh-top-nav-count-wrap" role="button"><span class="mobi-arrow"></span>消息<span id="zh-top-nav-count" class="zu-top-nav-count zg-noti-number" style="display: none;">0</span></a>
+</li>
+
+
+
+</ul>
+<div class="zu-top-nav-live zu-noti7-popup zg-r5px no-hovercard" id="zh-top-nav-live-new" role="popup" tabindex="0">
+<div class="zu-top-nav-live-inner zg-r5px">
+<div class="zu-top-live-icon">&nbsp;</div>
+<div class="zu-home-noti-inner" id="zh-top-nav-live-new-inner">
+<div class="zm-noti7-popup-tab-container clearfix" tabindex="0" role="tablist">
+<button class="zm-noti7-popup-tab-item message" role="tab">
+<span class="icon">消息</span>
+</button>
+<button class="zm-noti7-popup-tab-item user" role="tab">
+<span class="icon">用户</span>
+</button>
+<button class="zm-noti7-popup-tab-item thanks" role="tab">
+<span class="icon">赞同和感谢</span>
+</button>
+</div>
+</div>
+<div class="zm-noti7-frame-border top"></div>
+<div class="zm-noti7-frame">
+<div class="zm-noti7-content zh-scroller" style="position: relative; overflow: hidden;"><div class="zh-scroller-inner" style="height: 100%; width: 150%; overflow: auto;"><div class="zh-scroller-content" style="position: static; display: block; visibility: visible; overflow: hidden; width: 315px; min-height: 100%;">
+<div class="zm-noti7-content-inner">
+<div class="zm-noti7-content-body">
+<div class="zm-noti7-popup-loading">
+<span class="noti-spinner-loading"></span>
+</div>
+</div>
+</div>
+</div></div><div class="zh-scroller-bar-container" style="position: absolute; right: 1px; top: 0px; height: 98px; width: 6px; border: 1px solid rgb(68, 68, 68); opacity: 0; cursor: default; border-radius: 2px; -webkit-user-select: none; background: rgb(102, 102, 102);"><div style="-webkit-user-select: none;"></div></div><div class="zh-scroller-bar" style="position: absolute; right: 2px; top: 2px; opacity: 0.5; width: 6px; border-radius: 3px; cursor: default; -webkit-user-select: none; display: none; background: rgb(0, 0, 0);"></div></div>
+<div class="zm-noti7-content zh-scroller" style="display: none; position: relative; overflow: hidden;"><div class="zh-scroller-inner" style="height: 100%; width: 150%; overflow: auto;"><div class="zh-scroller-content" style="position: static; display: block; visibility: visible; overflow: hidden; width: 315px; min-height: 100%;">
+<div class="zm-noti7-content-inner">
+<div class="zm-noti7-content-body">
+<div class="zm-noti7-popup-loading">
+<span class="noti-spinner-loading"></span>
+</div>
+</div>
+</div>
+</div></div><div class="zh-scroller-bar-container" style="position: absolute; right: 1px; top: 0px; height: 98px; width: 6px; border: 1px solid rgb(68, 68, 68); opacity: 0; cursor: default; border-radius: 2px; -webkit-user-select: none; background: rgb(102, 102, 102);"><div style="-webkit-user-select: none;"></div></div><div class="zh-scroller-bar" style="position: absolute; right: 2px; top: 2px; opacity: 0.5; width: 6px; border-radius: 3px; cursor: default; -webkit-user-select: none; display: none; background: rgb(0, 0, 0);"></div></div>
+<div class="zm-noti7-content zh-scroller" style="display: none; position: relative; overflow: hidden;"><div class="zh-scroller-inner" style="height: 100%; width: 150%; overflow: auto;"><div class="zh-scroller-content" style="position: static; display: block; visibility: visible; overflow: hidden; width: 315px; min-height: 100%;">
+<div class="zm-noti7-content-inner">
+<div class="zm-noti7-content-body">
+<div class="zm-noti7-popup-loading">
+<span class="noti-spinner-loading"></span>
+</div>
+</div>
+</div>
+</div></div><div class="zh-scroller-bar-container" style="position: absolute; right: 1px; top: 0px; height: 98px; width: 6px; border: 1px solid rgb(68, 68, 68); opacity: 0; cursor: default; border-radius: 2px; -webkit-user-select: none; background: rgb(102, 102, 102);"><div style="-webkit-user-select: none;"></div></div><div class="zh-scroller-bar" style="position: absolute; right: 2px; top: 2px; opacity: 0.5; width: 6px; border-radius: 3px; cursor: default; -webkit-user-select: none; display: none; background: rgb(0, 0, 0);"></div></div>
+</div>
+<div class="zm-noti7-frame-border bottom"></div>
+<div class="zm-noti7-popup-footer">
+<a href="https://www.zhihu.com/notifications" class="zm-noti7-popup-footer-all zg-right">查看全部 »</a>
+<a href="https://www.zhihu.com/settings/notification" class="zm-noti7-popup-footer-set" title="通知设置"><i class="zg-icon zg-icon-settings"></i></a>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+<div class="zu-global-notify" id="zh-global-message" style="display:none">
+<div class="zg-wrap">
+<div class="zu-global-nitify-inner">
+<a class="zu-global-notify-close" href="javascript:;" title="关闭" name="close">x</a>
+<span class="zu-global-notify-icon"></span>
+<span class="zu-global-notify-msg"></span>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="zu-global-notify zu-global-notify-info" id="zh-question-redirect-info" style="display:none"></div>
+
+
+<div class="zu-global-notify zu-global-notify-info" id="zh-question-notification-summary" style="display:none;">
+<div class="zg-wrap">
+<div class="zu-global-nitify-inner">
+<span class="zu-global-notify-icon"></span>
+<ul class="zu-question-notify-wrap">
+</ul>
+</div>
+</div>
+</div>
+<div class="zg-wrap zu-main clearfix with-indention-votebar" itemscope="" itemtype="http://schema.org/Question" id="zh-single-question-page" data-urltoken="27393324" role="main">
+<div class="zu-main-content">
+<div class="zu-main-content-inner">
+
+
+<meta itemprop="isTopQuestion" content="false">
+<meta itemprop="visitsCount" content="1064">
+
+
+
+
+<div class="zm-tag-editor zg-section">
+<div class="zm-tag-editor-labels zg-clear"><a data-tip="t$b$19559450" class="zm-item-tag" href="https://www.zhihu.com/topic/19559450">机器学习</a><a data-tip="t$b$19590195" class="zm-item-tag" href="https://www.zhihu.com/topic/19590195">计算机视觉</a><a data-tip="t$b$19607065" class="zm-item-tag" href="https://www.zhihu.com/topic/19607065">神经网络</a><a data-tip="t$b$19813032" class="zm-item-tag" href="https://www.zhihu.com/topic/19813032">深度学习（Deep Learning）</a><a href="javascript:;" class="zu-edit-button" name="edit"><i class="zu-edit-button-icon"></i>修改</a></div>
+</div>
+<div id="zh-question-title" data-editable="true" class="zm-editable-status-normal">
+
+<h2 class="zm-item-title zm-editable-content">有谁能讲解下《Going deeper with convolutions》这篇论文？<a href="javascript:;" class="zu-edit-button" name="edit"><i class="zu-edit-button-icon"></i>修改</a></h2>
+</div>
+<div id="zh-question-detail" class="zm-item-rich-text zm-editable-status-normal" data-resourceid="3140238" data-action="/question/detail">
+
+<div class="zm-editable-content">有谁能解释下《Going deeper with convolutions》这篇论文里面的Inception module为什么能在增加网络宽度和深度的情况下保持较低的计算复杂度？<a href="javascript:;" class="zu-edit-button" name="edit"><i class="zu-edit-button-icon"></i>修改</a></div>
+
+
+</div>
+<div class="zm-item-meta zm-item-comment-el clearfix" id="zh-question-meta-wrap">
+<div class="zm-meta-panel">
+
+<a href="https://www.zhihu.com/question/27393324#" name="report-question" class="report zg-right goog-inline-block goog-menu-button" role="button" aria-expanded="false" style="-webkit-user-select: none;" tabindex="0" aria-haspopup="true"><div class="goog-inline-block goog-menu-button-outer-box"><div class="goog-inline-block goog-menu-button-inner-box"><div class="goog-inline-block goog-menu-button-caption"><i class="z-icon-no-help"></i>举报</div><div class="goog-inline-block goog-menu-button-dropdown">&nbsp;</div></div></div></a>
+
+<a href="https://www.zhihu.com/question/27393324#" name="addcomment" class="toggle-comment meta-item">
+<i class="z-icon-comment"></i>添加评论
+</a>
+<a href="https://www.zhihu.com/question/27393324#" name="share" class="share meta-item goog-inline-block goog-menu-button" role="button" aria-expanded="false" style="-webkit-user-select: none;" tabindex="0" aria-haspopup="true"><div class="goog-inline-block goog-menu-button-outer-box"><div class="goog-inline-block goog-menu-button-inner-box"><div class="goog-inline-block goog-menu-button-caption"><i class="z-icon-share"></i>分享</div><div class="goog-inline-block goog-menu-button-dropdown">&nbsp;</div></div></div></a>
+
+
+<span class="zg-bull">•</span>
+<a href="https://www.zhihu.com/question/27393324#" name="invite" class="meta-item">收起邀请</a>
+
+
+
+
+</div>
+<div class="panel-container">
+
+<div class="question-invite-panel" id="question-invite-panel" data-showsearch="true" style="display: block;">
+<i class="icon icon-spike"></i>
+
+<div class="invite-title">
+<span class="input-wrapper">
+<input type="text" placeholder="搜索你想邀请的人" class="search-input zg-form-text-input" data-tip="s$t$也可以搜索职业、公司等资料" role="combobox" aria-autocomplete="list" autocomplete="off" aria-label="搜索你想邀请的人">
+<i class="zg-icon icon-magnify"></i>
+</span>
+<i class="spinner-gray"></i>
+<span class="invite-status">
+
+你可以通过邀请其他用户来更快获得回答
+
+</span>
+</div>
+
+<div class="suggest-persons-wrapper">
+<ul class="suggest-persons">
+
+<li class="person">
+<a title="庞阿困" data-tip="p$t$pang-a-kun" class="zm-item-link-avatar" href="https://www.zhihu.com/people/pang-a-kun">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/89777bc63c3cbec102e160b4899a5949_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="e7ab47a855e345ce7f03f4e7023b76cc" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$pang-a-kun" href="https://www.zhihu.com/people/pang-a-kun" class="zg-link" title="庞阿困">庞阿困</a><span class="bio hidden-phone" title="别人笑我太疯癫，我夸他人看得准。">，别人笑我太疯癫，我夸他人看得准。</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/pang-a-kun/topic/19590195/answers" data-tip="t$b$19590195" data-token="19590195" data-topicid="13303"> 计算机视觉 </a> 话题下有 10 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person">
+<a title="蔡和謙" data-tip="p$t$cai-he-qian-15" class="zm-item-link-avatar" href="https://www.zhihu.com/people/cai-he-qian-15">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/da8e974dc_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="db94263e549699c0d9a8533c9de1683f" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$cai-he-qian-15" href="https://www.zhihu.com/people/cai-he-qian-15" class="zg-link" title="蔡和謙">蔡和謙</a><span class="bio hidden-phone" title="呆包民科">，呆包民科</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/cai-he-qian-15/topic/19813032/answers" data-tip="t$b$19813032" data-token="19813032" data-topicid="89794"> 深度学习（Deep Learning） </a> 话题下有 9 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person">
+<a title="Stark Einstein" data-tip="p$t$stark-einstein" class="zm-item-link-avatar" href="https://www.zhihu.com/people/stark-einstein">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/5e10277093bbf0699c7a12d82871b1dc_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="6ab1ba8d043ad96a7bd334153db159e2" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$stark-einstein" href="https://www.zhihu.com/people/stark-einstein" class="zg-link" title="Stark Einstein">Stark Einstein</a><span class="bio hidden-phone" title="躬耕陇亩，不废天下志">，躬耕陇亩，不废天下志</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/stark-einstein/topic/19813032/answers" data-tip="t$b$19813032" data-token="19813032" data-topicid="89794"> 深度学习（Deep Learning） </a> 话题下有 47 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="王赟 Maigo" data-tip="p$t$maigo" class="zm-item-link-avatar" href="https://www.zhihu.com/people/maigo">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/19ed62ad9_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="0c708d923f8fb00142e1f25cdd4951d9" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$maigo" href="https://www.zhihu.com/people/maigo" class="zg-link" title="王赟 Maigo">王赟 Maigo</a><span class="bio hidden-phone" title="漢字古今中外讀音查詢：https://goo.gl/nXjjqH">，漢字古今中外讀音查詢：<a href="https://link.zhihu.com/?target=https%3A//goo.gl/nXjjqH" class=" external" target="_blank" rel="nofollow noreferrer"><span class="invisible">https://</span><span class="visible">goo.gl/nXjjqH</span><span class="invisible"></span><i class="icon-external"></i></a></span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/maigo/topic/19559450/answers" data-tip="t$b$19559450" data-token="19559450" data-topicid="3084"> 机器学习 </a> 话题下有 77 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="Coldwings" data-tip="p$t$coldwings" class="zm-item-link-avatar" href="https://www.zhihu.com/people/coldwings">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/59ed8e03375527af45bb2a9bb0407a85_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="8fcc30ba267650d2a5ee8e74040a3b00" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$coldwings" href="https://www.zhihu.com/people/coldwings" class="zg-link" title="Coldwings">Coldwings</a><span class="bio hidden-phone" title="专业数星星团队成员">，专业数星星团队成员</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/coldwings/topic/19559450/answers" data-tip="t$b$19559450" data-token="19559450" data-topicid="3084"> 机器学习 </a> 话题下有 11 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="昆吾" data-tip="p$t$yang-yong-zhou-29" class="zm-item-link-avatar" href="https://www.zhihu.com/people/yang-yong-zhou-29">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/28320f36fa5bc7d7bd04cc7e89062290_is.png" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="c1bfb5933dd71ea7e63196cebe768ac3" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$yang-yong-zhou-29" href="https://www.zhihu.com/people/yang-yong-zhou-29" class="zg-link" title="昆吾">昆吾</a><span class="bio hidden-phone" title="希望成为资深架构师的编程汪">，希望成为资深架构师的编程汪</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/yang-yong-zhou-29/topic/19559450/answers" data-tip="t$b$19559450" data-token="19559450" data-topicid="3084"> 机器学习 </a> 话题下有 2 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="大米" data-tip="p$t$pan-sam-54" class="zm-item-link-avatar" href="https://www.zhihu.com/people/pan-sam-54">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/ba611f244e1c7e7494f5c9351f479253_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="8d310739e5bdce0575bcdbac803d18fa" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$pan-sam-54" href="https://www.zhihu.com/people/pan-sam-54" class="zg-link" title="大米">大米</a><span class="bio hidden-phone" title="Business Analyst">，Business Analyst</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/pan-sam-54/topic/19559450/answers" data-tip="t$b$19559450" data-token="19559450" data-topicid="3084"> 机器学习 </a> 话题下有 1 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="刘东博" data-tip="p$t$liu-dong-bo-4" class="zm-item-link-avatar" href="https://www.zhihu.com/people/liu-dong-bo-4">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/eb1502a045f11c4f907bab4eab9d9f5a_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="f3c6cd5e1104abef895542ba900e1d8a" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$liu-dong-bo-4" href="https://www.zhihu.com/people/liu-dong-bo-4" class="zg-link" title="刘东博">刘东博</a><span class="bio hidden-phone" title="苦逼科研民工还要兼职养狗←_←">，苦逼科研民工还要兼职养狗←_←</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/liu-dong-bo-4/topic/19813032/answers" data-tip="t$b$19813032" data-token="19813032" data-topicid="89794"> 深度学习（Deep Learning） </a> 话题下有 26 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="文刀叉点" data-tip="p$t$liu-yi-18-60" class="zm-item-link-avatar" href="https://www.zhihu.com/people/liu-yi-18-60">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/ef2940c703b89680be4fcc628d2467d6_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="888e153665721fab6d5f5f9bfc7b6ef7" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$liu-yi-18-60" href="https://www.zhihu.com/people/liu-yi-18-60" class="zg-link" title="文刀叉点">文刀叉点</a><span class="bio hidden-phone" title="知之为不知">，知之为不知</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/liu-yi-18-60/topic/19590195/answers" data-tip="t$b$19590195" data-token="19590195" data-topicid="13303"> 计算机视觉 </a> 话题下有 9 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="立党" data-tip="p$t$lidang" class="zm-item-link-avatar" href="https://www.zhihu.com/people/lidang">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/b41d98a40d5f4d396e2a5b36936cd487_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="b6f0c45a4d0dc84f228977e0d70bd700" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$lidang" href="https://www.zhihu.com/people/lidang" class="zg-link" title="立党">立党</a><span class="bio hidden-phone" title="Visual SLAM Researcher">，Visual SLAM Researcher</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/lidang/topic/19590195/answers" data-tip="t$b$19590195" data-token="19590195" data-topicid="13303"> 计算机视觉 </a> 话题下有 7 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="叶邦宇" data-tip="p$t$yebangyu" class="zm-item-link-avatar" href="https://www.zhihu.com/people/yebangyu">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/c05dd76f3e2ccfa8a98652b97aede34b_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="3857a44b41a1cd95d0b01ce96cb97f7a" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$yebangyu" href="https://www.zhihu.com/people/yebangyu" class="zg-link" title="叶邦宇">叶邦宇</a><span class="bio hidden-phone" title="搬砖">，搬砖</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/yebangyu/topic/19559450/answers" data-tip="t$b$19559450" data-token="19559450" data-topicid="3084"> 机器学习 </a> 话题下有 13 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="冰炭" data-tip="p$t$iceandcharcoal" class="zm-item-link-avatar" href="https://www.zhihu.com/people/iceandcharcoal">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/65daee764b74677b2f45e55835f1ab0f_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="438f6c69c96e8f44ddce25529eaeadb2" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$iceandcharcoal" href="https://www.zhihu.com/people/iceandcharcoal" class="zg-link" title="冰炭">冰炭</a>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/iceandcharcoal/topic/19559450/answers" data-tip="t$b$19559450" data-token="19559450" data-topicid="3084"> 机器学习 </a> 话题下有 1 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="清雨影" data-tip="p$t$qing-yu-ying" class="zm-item-link-avatar" href="https://www.zhihu.com/people/qing-yu-ying">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/92fcb62b89c8d8c97f9a139fbad62dc9_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="fb8d9721c1d4536e26b31150d4ad2ced" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$qing-yu-ying" href="https://www.zhihu.com/people/qing-yu-ying" class="zg-link" title="清雨影">清雨影</a><span class="bio hidden-phone" title="车间的装配工一枚，很多事情都略(qiang)知(xin)一(zhuang)二(dong)">，车间的装配工一枚，很多事情都略(qiang)知(xin)一(zhuang)二(dong)</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/qing-yu-ying/topic/19559450/answers" data-tip="t$b$19559450" data-token="19559450" data-topicid="3084"> 机器学习 </a> 话题下有 11 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="Vinjn张静" data-tip="p$t$vinjn" class="zm-item-link-avatar" href="https://www.zhihu.com/people/vinjn">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/6d9b6b6351ea8eaae8bf1a76191660a5_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="0effe9e423faad125fa9c63418dd288a" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$vinjn" href="https://www.zhihu.com/people/vinjn" class="zg-link" title="Vinjn张静">Vinjn张静</a><span class="bio hidden-phone" title="Full-Stack Mixed Reality Engineer">，Full-Stack Mixed Reality Engineer</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/vinjn/topic/19590195/answers" data-tip="t$b$19590195" data-token="19590195" data-topicid="13303"> 计算机视觉 </a> 话题下有 21 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="letian huang" data-tip="p$t$letian-huang" class="zm-item-link-avatar" href="https://www.zhihu.com/people/letian-huang">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/45b6f5d30_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="edb345a4e764ee0fdd0a77194ecd5346" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$letian-huang" href="https://www.zhihu.com/people/letian-huang" class="zg-link" title="letian huang">letian huang</a><span class="bio hidden-phone" title="我们知道就是知道不知道就不知道，绝对不能装">，我们知道就是知道不知道就不知道，绝对不能装</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/letian-huang/topic/19559450/answers" data-tip="t$b$19559450" data-token="19559450" data-topicid="3084"> 机器学习 </a> 话题下有 7 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="羅鋒" data-tip="p$t$FUNG.LAW" class="zm-item-link-avatar" href="https://www.zhihu.com/people/FUNG.LAW">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/3e8e09f4a_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="77d2a46f6704e7e05f5f4305ed84ea19" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$FUNG.LAW" href="https://www.zhihu.com/people/FUNG.LAW" class="zg-link" title="羅鋒">羅鋒</a>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/FUNG.LAW/topic/19590195/answers" data-tip="t$b$19590195" data-token="19590195" data-topicid="13303"> 计算机视觉 </a> 话题下有 2 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="Zrinker Qin" data-tip="p$t$zrinker-qin" class="zm-item-link-avatar" href="https://www.zhihu.com/people/zrinker-qin">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/da8e974dc_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="b47affb54c93439ba12c1f0d593141d2" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$zrinker-qin" href="https://www.zhihu.com/people/zrinker-qin" class="zg-link" title="Zrinker Qin">Zrinker Qin</a>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/zrinker-qin/topic/19590195/answers" data-tip="t$b$19590195" data-token="19590195" data-topicid="13303"> 计算机视觉 </a> 话题下有 1 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="li Eta" data-tip="p$t$li-eta" class="zm-item-link-avatar" href="https://www.zhihu.com/people/li-eta">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/21ce59278_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="e3f97a56de92dafc0e4740042cc06bd9" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$li-eta" href="https://www.zhihu.com/people/li-eta" class="zg-link" title="li Eta">li Eta</a><span class="bio hidden-phone" title="Machine Learning, Optimization, Computer Vision">，Machine Learning, Optimization, Computer Vision</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/li-eta/topic/19559450/answers" data-tip="t$b$19559450" data-token="19559450" data-topicid="3084"> 机器学习 </a> 话题下有 53 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="ET Tang" data-tip="p$t$et-tang-77" class="zm-item-link-avatar" href="https://www.zhihu.com/people/et-tang-77">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/5843c363c5b75f29fc14c6000b19e6fa_is.jpg" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="df2f2ba02db77470651b600d33d4ffd2" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$et-tang-77" href="https://www.zhihu.com/people/et-tang-77" class="zg-link" title="ET Tang">ET Tang</a>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/et-tang-77/topic/19559450/answers" data-tip="t$b$19559450" data-token="19559450" data-topicid="3084"> 机器学习 </a> 话题下有 2 个回答
+
+</div>
+</div>
+</li>
+
+<li class="person" style="display:none">
+<a title="李冰" data-tip="p$t$bingli8882" class="zm-item-link-avatar" href="https://www.zhihu.com/people/bingli8882">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/8fd6197949722ea4ab187b837f465d01_is.png" class="zm-item-img-avatar">
+</a>
+<div class="content">
+
+<button class="invite-button zg-btn zg-btn-green" data-uid="f46a044507ce673f1e4fd8df0dfdc70a" data-type="recommended">邀请回答</button>
+
+<div class="describe">
+<a data-tip="p$t$bingli8882" href="https://www.zhihu.com/people/bingli8882" class="zg-link" title="李冰">李冰</a><span class="bio hidden-phone" title="学生">，学生</span>
+</div>
+<div class="reason">
+
+在 <a href="https://www.zhihu.com/people/bingli8882/topic/19559450/answers" data-tip="t$b$19559450" data-token="19559450" data-topicid="3084"> 机器学习 </a> 话题下有 14 个回答
+
+</div>
+</div>
+</li>
+
+</ul>
+
+<a class="js-more" href="https://www.zhihu.com/question/27393324#">更多推荐结果</a>
+
+</div>
+
+
+</div><div class="zm-comment-box" style="display: none;"></div></div>
+</div>
+
+<div class="zh-answers-title clearfix">
+
+<div id="zh-answers-filter" class="answers-sorter">
+
+<span class="lbl">按投票排序</span>
+<a class="lbl" href="https://www.zhihu.com/question/27393324?sort=created">按时间排序</a>
+
+<i class="zg-icon zg-icon-double-arrow"></i>
+</div>
+
+<h3 data-num="3" id="zh-question-answer-num">3 个回答</h3>
+</div>
+<div class="zh-question-answer-summary-wrap zm-item-rich-text" id="zh-question-answer-summary-wrap" style="display:none;">
+<h3>
+<a href="http://www.zhihu.com/question/20014415" target="_blank" class="zg-right zg-link-litblue" style="font-weight:normal">什么是答案总结？</a>
+答案总结</h3>
+<div id="zh-question-answer-summary" class="zg-section zm-editable-status-normal" data-resourceid="3140238" data-action="/question/summary">
+
+<div class="zm-editable-content" style="display: none;"><a href="javascript:;" class="zu-edit-button" name="edit"><i class="zu-edit-button-icon"></i>修改</a></div>
+
+</div>
+</div>
+
+<div id="zh-question-answer-wrap" data-pagesize="50" class="zh-question-answer-wrapper navigable" data-widget="navigable" data-navigable-options="{&quot;items&quot;: &quot;&gt;.zm-item-answer&quot;}" data-init="{&quot;params&quot;: {&quot;url_token&quot;: 27393324, &quot;pagesize&quot;: 50, &quot;offset&quot;: 0}, &quot;nodename&quot;: &quot;QuestionAnswerListV2&quot;}"><div tabindex="-1" class="zm-item-answer  zm-item-expanded" itemprop="topAnswer" itemscope="" itemtype="http://schema.org/Answer" data-aid="9975406" data-atoken="36463840" data-collapsed="0" data-created="1420369732" data-deleted="0" data-helpful="1" data-isowner="0" data-copyable="1">
+<a class="zg-anchor-hidden" name="answer-9975406"></a>
+
+
+<div class="zm-votebar version-classic" data-version="classic">
+<button class="up" aria-pressed="false" title="赞同">
+<i class="icon vote-arrow"></i>
+<span class="count">1</span>
+<span class="label sr-only">赞同</span>
+</button>
+<button class="down" aria-pressed="false" title="反对，不会显示你的姓名">
+<i class="icon vote-arrow"></i>
+<span class="label sr-only">反对，不会显示你的姓名</span>
+</button>
+</div>
+
+
+<div class="answer-head">
+<div class="zm-item-answer-author-info">
+
+<a class="zm-item-link-avatar avatar-link" href="https://www.zhihu.com/people/jin-yi-66-65" data-tip="p$t$jin-yi-66-65">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/da8e974dc_s.jpg" class="zm-list-avatar avatar">
+</a>
+
+<a class="author-link" data-tip="p$t$jin-yi-66-65" href="https://www.zhihu.com/people/jin-yi-66-65">金祎</a>
+</div>
+<div class="zm-item-vote-info " data-votecount="1">
+
+<span class="voters">
+<span class="user-block"><a data-tip="p$t$beanfrog" href="https://www.zhihu.com/people/beanfrog" class="zg-link" title="beanfrog">beanfrog</a></span>
+</span>
+
+
+<span>赞同</span>
+
+
+</div>
+</div>
+<div class="zm-item-rich-text js-collapse-body" data-resourceid="3140238" data-action="/answer/content" data-author-name="金祎" data-entry-url="/question/27393324/answer/36463840">
+
+
+<div class="zh-summary summary clearfix" style="display:none;">
+
+n*m &gt; n*p + p*m if p &lt;&lt; n, m.googlenet的构造在原本n通道和m通道的两层间加入了一个p通道的层。这个做法不仅降低了参数量和计算量并且符合神经学的Hebbian principle，所以在效果上也有不小的提升。我认为google的inception layer之所以有用一是因为Hebbi…
+
+<a href="https://www.zhihu.com/question/27393324/answer/36463840" class="toggle-expand">显示全部</a>
+
+</div>
+
+
+<div class="zm-editable-content clearfix">
+n*m &gt; n*p + p*m if p &lt;&lt; n, m.<br>googlenet的构造在原本n通道和m通道的两层间加入了一个p通道的层。这个做法不仅降低了参数量和计算量并且符合神经学的Hebbian principle，所以在效果上也有不小的提升。<br>我认为google的inception layer之所以有用一是因为Hebbian principle，二是对图像尺度的考虑。
+
+</div>
+
+</div>
+<a class="zg-anchor-hidden ac" name="9975406-comment"></a>
+<div class="zm-item-meta zm-item-comment-el answer-actions clearfix">
+<div class="zm-meta-panel">
+
+<span class="answer-date-link-wrap">
+<a class="answer-date-link meta-item" target="_blank" href="https://www.zhihu.com/question/27393324/answer/36463840">发布于 2015-01-04</a>
+</span>
+
+<a href="https://www.zhihu.com/question/27393324#" name="addcomment" class=" meta-item toggle-comment">
+<i class="z-icon-comment"></i>4 条评论</a>
+
+
+<a href="https://www.zhihu.com/question/27393324#" class="meta-item zu-autohide" name="thanks" data-thanked="false"><i class="z-icon-thank"></i>感谢</a>
+
+
+
+<a href="https://www.zhihu.com/question/27393324#" class="meta-item zu-autohide goog-inline-block goog-menu-button" name="share" role="button" aria-expanded="false" style="-webkit-user-select: none;" tabindex="0" aria-haspopup="true"><div class="goog-inline-block goog-menu-button-outer-box"><div class="goog-inline-block goog-menu-button-inner-box"><div class="goog-inline-block goog-menu-button-caption"><i class="z-icon-share"></i>分享</div><div class="goog-inline-block goog-menu-button-dropdown">&nbsp;</div></div></div></a>
+<a href="https://www.zhihu.com/question/27393324#" class="meta-item zu-autohide" name="favo">
+<i class="z-icon-collect"></i>收藏</a>
+
+
+
+
+<span class="zg-bull zu-autohide">•</span>
+
+<a href="https://www.zhihu.com/question/27393324#" name="nohelp" class="meta-item zu-autohide">没有帮助</a>
+
+<span class="zg-bull zu-autohide">•</span>
+<a href="https://www.zhihu.com/question/27393324#" name="report" class="meta-item zu-autohide goog-inline-block goog-menu-button" role="button" aria-expanded="false" style="-webkit-user-select: none;" tabindex="0" aria-haspopup="true"><div class="goog-inline-block goog-menu-button-outer-box"><div class="goog-inline-block goog-menu-button-inner-box"><div class="goog-inline-block goog-menu-button-caption">举报</div><div class="goog-inline-block goog-menu-button-dropdown">&nbsp;</div></div></div></a>
+
+
+
+<span class="zg-bull">•</span>
+
+<a href="https://www.zhihu.com/terms#sec-licence-1" target="_blank" class="meta-item copyright"> 作者保留权利 </a>
+
+
+
+</div>
+</div>
+</div><div tabindex="-1" class="zm-item-answer  zm-item-expanded focusin navigable-focusin" itemscope="" itemtype="http://schema.org/Answer" data-aid="15831030" data-atoken="51075850" data-collapsed="0" data-created="1434079500" data-deleted="0" data-helpful="1" data-isowner="0" data-copyable="1">
+<a class="zg-anchor-hidden" name="answer-15831030"></a>
+
+
+<div class="zm-votebar version-classic" data-version="classic">
+<button class="up" aria-pressed="false" title="赞同">
+<i class="icon vote-arrow"></i>
+<span class="count">1</span>
+<span class="label sr-only">赞同</span>
+</button>
+<button class="down" aria-pressed="false" title="反对，不会显示你的姓名">
+<i class="icon vote-arrow"></i>
+<span class="label sr-only">反对，不会显示你的姓名</span>
+</button>
+</div>
+
+
+<div class="answer-head">
+<div class="zm-item-answer-author-info">
+
+<a class="zm-item-link-avatar avatar-link" href="https://www.zhihu.com/people/beanfrog" data-tip="p$t$beanfrog">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/ce85cbcc1b862e96eb9284c8c112ed94_s.jpg" class="zm-list-avatar avatar">
+</a>
+
+<a class="author-link" data-tip="p$t$beanfrog" href="https://www.zhihu.com/people/beanfrog">beanfrog</a><span title="computer vision" class="bio">，computer vision</span>
+</div>
+<div class="zm-item-vote-info " data-votecount="1">
+
+<span class="voters">
+<span class="user-block"><a data-tip="p$t$weicao" href="https://www.zhihu.com/people/weicao" class="zg-link" title="还是那个样子">还是那个样子</a></span>
+</span>
+
+
+<span>赞同</span>
+
+
+</div>
+</div>
+<div class="zm-item-rich-text js-collapse-body" data-resourceid="3140238" data-action="/answer/content" data-author-name="beanfrog" data-entry-url="/question/27393324/answer/51075850">
+
+
+<div class="zh-summary summary clearfix" style="display:none;">
+
+其实关于这篇论文一开始我是没看懂的，后来看了GoogleNet的开源实现有就豁然开朗了。<a class=" wrap external" href="https://link.zhihu.com/?target=https%3A//github.com/BVLC/caffe/blob/master/models/bvlc_googlenet/train_val.prototxt" target="_blank" rel="nofollow noreferrer">caffe/train_val.prototxt at master · BVLC/caffe · GitHub<i class="icon-external"></i></a>
+
+</div>
+
+
+<div class="zm-editable-content clearfix">
+其实关于这篇论文一开始我是没看懂的，后来看了GoogleNet的开源实现有就豁然开朗了。<br><a class=" wrap external" href="https://link.zhihu.com/?target=https%3A//github.com/BVLC/caffe/blob/master/models/bvlc_googlenet/train_val.prototxt" target="_blank" rel="nofollow noreferrer">caffe/train_val.prototxt at master · BVLC/caffe · GitHub<i class="icon-external"></i></a>
+
+</div>
+
+</div>
+<a class="zg-anchor-hidden ac" name="15831030-comment"></a>
+<div class="zm-item-meta zm-item-comment-el answer-actions clearfix">
+<div class="zm-meta-panel">
+
+<span class="answer-date-link-wrap">
+<a class="answer-date-link meta-item" target="_blank" href="https://www.zhihu.com/question/27393324/answer/51075850">发布于 2015-06-12</a>
+</span>
+
+<a href="https://www.zhihu.com/question/27393324#" name="addcomment" class=" meta-item toggle-comment">
+<i class="z-icon-comment"></i>1 条评论</a>
+
+
+<a href="https://www.zhihu.com/question/27393324#" class="meta-item zu-autohide" name="thanks" data-thanked="false"><i class="z-icon-thank"></i>感谢</a>
+
+
+
+<a href="https://www.zhihu.com/question/27393324#" class="meta-item zu-autohide goog-inline-block goog-menu-button" name="share" role="button" aria-expanded="false" style="-webkit-user-select: none;" tabindex="0" aria-haspopup="true"><div class="goog-inline-block goog-menu-button-outer-box"><div class="goog-inline-block goog-menu-button-inner-box"><div class="goog-inline-block goog-menu-button-caption"><i class="z-icon-share"></i>分享</div><div class="goog-inline-block goog-menu-button-dropdown">&nbsp;</div></div></div></a>
+<a href="https://www.zhihu.com/question/27393324#" class="meta-item zu-autohide" name="favo">
+<i class="z-icon-collect"></i>收藏</a>
+
+
+
+
+<span class="zg-bull zu-autohide">•</span>
+
+<a href="https://www.zhihu.com/question/27393324#" name="nohelp" class="meta-item zu-autohide">没有帮助</a>
+
+<span class="zg-bull zu-autohide">•</span>
+<a href="https://www.zhihu.com/question/27393324#" name="report" class="meta-item zu-autohide goog-inline-block goog-menu-button" role="button" aria-expanded="false" style="-webkit-user-select: none;" tabindex="0" aria-haspopup="true"><div class="goog-inline-block goog-menu-button-outer-box"><div class="goog-inline-block goog-menu-button-inner-box"><div class="goog-inline-block goog-menu-button-caption">举报</div><div class="goog-inline-block goog-menu-button-dropdown">&nbsp;</div></div></div></a>
+
+
+
+<span class="zg-bull">•</span>
+
+<a href="https://www.zhihu.com/terms#sec-licence-1" target="_blank" class="meta-item copyright"> 作者保留权利 </a>
+
+
+
+</div>
+</div>
+</div><div tabindex="-1" class="zm-item-answer  zm-item-expanded" itemscope="" itemtype="http://schema.org/Answer" data-aid="26626916" data-atoken="78000723" data-collapsed="0" data-created="1450769509" data-deleted="0" data-helpful="1" data-isowner="0" data-copyable="1">
+<a class="zg-anchor-hidden" name="answer-26626916"></a>
+
+
+<div class="zm-votebar version-classic goog-scrollfloater" data-version="classic">
+<button class="up" aria-pressed="false" title="赞同">
+<i class="icon vote-arrow"></i>
+<span class="count">0</span>
+<span class="label sr-only">赞同</span>
+</button>
+<button class="down" aria-pressed="false" title="反对，不会显示你的姓名">
+<i class="icon vote-arrow"></i>
+<span class="label sr-only">反对，不会显示你的姓名</span>
+</button>
+</div>
+
+
+<div class="answer-head">
+<div class="zm-item-answer-author-info">
+
+<a class="zm-item-link-avatar avatar-link" href="https://www.zhihu.com/people/tqtang" data-tip="p$t$tqtang">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/b42f559de_s.jpg" class="zm-list-avatar avatar">
+</a>
+
+<a class="author-link" data-tip="p$t$tqtang" href="https://www.zhihu.com/people/tqtang">卧锦</a><span title="立志做个程序媛" class="bio">，立志做个程序媛</span>
+</div>
+<div class="zm-item-vote-info empty" data-votecount="0">
+
+
+
+</div>
+</div>
+<div class="zm-item-rich-text js-collapse-body" data-resourceid="3140238" data-action="/answer/content" data-author-name="卧锦" data-entry-url="/question/27393324/answer/78000723">
+
+
+<div class="zh-summary summary clearfix" style="display:none;">
+
+正如文章中所写，增加网络宽度的好处，来源于不同尺度的卷积核并联，从而实现了对multi-scale特征的利用，也就是文章中Figure 2(a)，给出的inception module的结构。但是较大尺度卷积核的使用，会带来网络规模以及计算量的增加。这里作者提出了采用小卷积核…
+
+<a href="https://www.zhihu.com/question/27393324/answer/78000723" class="toggle-expand">显示全部</a>
+
+</div>
+
+
+<div class="zm-editable-content clearfix">
+正如文章中所写，增加网络宽度的好处，来源于不同尺度的卷积核并联，从而实现了对multi-scale特征的利用，也就是文章中Figure 2(a)，给出的inception module的结构。但是较大尺度卷积核的使用，会带来网络规模以及计算量的增加。这里作者提出了采用小卷积核和大卷积核级联的方法，来压缩模型的参数量，也就是文中的Figure 2(b)。<br><br>按文章中Figure 3所示的网络结构，我们可以算一下：对于一张224*224*3的图片，过完前三层公用的卷积(7*7-1*1-3*3)之后，feature map的大小是28*28*192。这时如果直接使用128个3*3的卷积核，那么需要(3*3*192*128)个parameter，而如果按文中所述先用1*1的卷积核把feature map的第三维维数先降下来，再用3*3的卷积，这样模型的规模就可以小很多，文中用了96个1*1+128个3*3的卷积核级联，这时parameter的数目变成了(1*1*192*96+3*3*96*128)，几乎只是原来的一半。同理对5*5的卷积，文中用16个1*1+32个5*5卷积核级联，代替直接使用32个5*5卷积核，parameter数目从(5*5*192*32)下降到(1*1*192*16+5*5*16*32)。后面每层也依次类推。
+
+</div>
+
+</div>
+<a class="zg-anchor-hidden ac" name="26626916-comment"></a>
+<div class="zm-item-meta zm-item-comment-el answer-actions clearfix">
+<div class="zm-meta-panel">
+
+<span class="answer-date-link-wrap">
+<a class="answer-date-link meta-item" target="_blank" href="https://www.zhihu.com/question/27393324/answer/78000723">发布于 2015-12-22</a>
+</span>
+
+<a href="https://www.zhihu.com/question/27393324#" name="addcomment" class=" meta-item toggle-comment">
+<i class="z-icon-comment"></i>添加评论</a>
+
+
+<a href="https://www.zhihu.com/question/27393324#" class="meta-item zu-autohide" name="thanks" data-thanked="false"><i class="z-icon-thank"></i>感谢</a>
+
+
+
+<a href="https://www.zhihu.com/question/27393324#" class="meta-item zu-autohide goog-inline-block goog-menu-button" name="share" role="button" aria-expanded="false" style="-webkit-user-select: none;" tabindex="0" aria-haspopup="true"><div class="goog-inline-block goog-menu-button-outer-box"><div class="goog-inline-block goog-menu-button-inner-box"><div class="goog-inline-block goog-menu-button-caption"><i class="z-icon-share"></i>分享</div><div class="goog-inline-block goog-menu-button-dropdown">&nbsp;</div></div></div></a>
+<a href="https://www.zhihu.com/question/27393324#" class="meta-item zu-autohide" name="favo">
+<i class="z-icon-collect"></i>收藏</a>
+
+
+
+
+<span class="zg-bull zu-autohide">•</span>
+
+<a href="https://www.zhihu.com/question/27393324#" name="nohelp" class="meta-item zu-autohide">没有帮助</a>
+
+<span class="zg-bull zu-autohide">•</span>
+<a href="https://www.zhihu.com/question/27393324#" name="report" class="meta-item zu-autohide goog-inline-block goog-menu-button" role="button" aria-expanded="false" style="-webkit-user-select: none;" tabindex="0" aria-haspopup="true"><div class="goog-inline-block goog-menu-button-outer-box"><div class="goog-inline-block goog-menu-button-inner-box"><div class="goog-inline-block goog-menu-button-caption">举报</div><div class="goog-inline-block goog-menu-button-dropdown">&nbsp;</div></div></div></a>
+
+
+
+<span class="zg-bull">•</span>
+
+<a href="https://www.zhihu.com/terms#sec-licence-1" target="_blank" class="meta-item copyright"> 作者保留权利 </a>
+
+
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+<div id="zh-question-collapsed-link" class="zu-question-collap-title" style="display:none">
+<a href="javascript:;" name="expand" class="zg-link-gray" id="zh-question-collapsed-switcher">
+<span id="zh-question-collapsed-num">0</span> 个回答被折叠
+</a>
+（<a target="_blank" href="http://www.zhihu.com/question/20120168" class="zg-link-gray">为什么？</a>）
+</div>
+<div id="zh-question-collapsed-wrap" class="zh-question-answer-wrapper" style="display:none"></div>
+<a name="draft"></a>
+<div id="zh-question-answer-form-wrap" class="zh-question-answer-form-wrap">
+<div class="zm-editable-tip zu-answer-form-disabled-wrap" style="display: none;"></div>
+<div class="zm-editable-content" style="display: none;"><a href="javascript:;" class="zu-edit-button" name="edit"><i class="zu-edit-button-icon"></i>修改</a></div><div class="zm-editable-editor-wrap" style=""><div class="zh-answer-form clearfix"><a href="https://www.zhihu.com/people/lealzhan" title="Ling Zhan" class="zm-item-link-avatar" data-tip="p$t$lealzhan"><img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/68c78d34c8bfee221f8814680c62da18_s.jpg" class="zm-list-avatar"></a><div><div class="zu-answer-form-title"><a href="https://www.zhihu.com/people/lealzhan" title="Ling Zhan" data-tip="p$t$lealzhan">Ling Zhan</a><span><a name="edit_bio" class="zu-edit-button" href="https://www.zhihu.com/question/27393324#"><i class="zu-edit-button-icon"></i>填写话题经验，提升回答可信度</a></span></div></div></div><div class="zm-editable-editor-outer"><div class="zm-editable-toolbar-container goog-scrollfloater"><div class="goog-toolbar goog-toolbar-horizontal" role="toolbar" tabindex="-1" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button" title="写作模式" role="button" id="toggleFullScreen" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-max" style="-webkit-user-select: none;"></div></div></div></div><div class="goog-inline-block goog-toolbar-button" title="粗体 (⌘+b)" role="button" aria-pressed="false" id="+bold" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-bold" style="-webkit-user-select: none;"></div></div></div></div><div class="goog-inline-block goog-toolbar-button" title="斜体 (⌘+i)" role="button" aria-pressed="false" id="+italic" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-italic" style="-webkit-user-select: none;"></div></div></div></div><div class="goog-inline-block goog-toolbar-button" title="下划线 (⌘+u)" role="button" aria-pressed="false" id="+underline" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-underline" style="-webkit-user-select: none;"></div></div></div></div><div class="goog-toolbar-separator goog-toolbar-separator-disabled goog-inline-block" aria-disabled="true" role="separator" id=":13" style="-webkit-user-select: none;">&nbsp;</div><div class="goog-inline-block goog-toolbar-button" title="引用内容" role="button" aria-pressed="false" id="+blockquote" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-blockquote" style="-webkit-user-select: none;"></div></div></div></div><div class="goog-inline-block goog-toolbar-button" title="插入代码" role="button" aria-pressed="false" id="+code" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-code" style="-webkit-user-select: none;"></div></div></div></div><div class="goog-inline-block goog-toolbar-button" title="有序列表" role="button" aria-pressed="false" id="+insertOrderedList" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-insertOrderedList" style="-webkit-user-select: none;"></div></div></div></div><div class="goog-inline-block goog-toolbar-button" title="无序列表" role="button" aria-pressed="false" id="+insertUnorderedList" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-insertUnorderedList" style="-webkit-user-select: none;"></div></div></div></div><div class="goog-inline-block goog-toolbar-button" title="插入公式" role="button" id="+equation" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-equation" style="-webkit-user-select: none;"></div></div></div></div><div class="goog-toolbar-separator goog-toolbar-separator-disabled goog-inline-block" aria-disabled="true" role="separator" id=":14" style="-webkit-user-select: none;">&nbsp;</div><div class="goog-inline-block goog-toolbar-button" title="插入图片" role="button" id="image" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-image" style="-webkit-user-select: none;"></div></div></div></div><div class="goog-inline-block goog-toolbar-button" title="插入视频" role="button" id="video" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-video" style="-webkit-user-select: none;"></div></div></div></div><div class="goog-toolbar-separator goog-toolbar-separator-disabled goog-inline-block" aria-disabled="true" role="separator" id=":15" style="-webkit-user-select: none;">&nbsp;</div><div class="goog-inline-block goog-toolbar-button" title="清除格式" role="button" id="+removeFormat" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-outer-box" style="-webkit-user-select: none;"><div class="goog-inline-block goog-toolbar-button-inner-box" style="-webkit-user-select: none;"><div class="tr-icon tr-removeFormat" style="-webkit-user-select: none;"></div></div></div></div><div class="tr-spinner spinner-gray" style="display: none;"></div></div></div><div class="zm-editable-editor-field-wrap"><div id="mock:v" class="zm-editable-editor-field-element editable" g_editable="true" role="textbox" contenteditable="true" style="font-style: italic;"><p><span style="font-style: normalcolor: #999">写回答…</span></p></div><div class="editable-dropzone"><div class="row"><div class="cell"><div>拖拽至此处上传</div></div></div></div></div><div class="mention-popup" style="display: none;"><div class="writing-bg"><input role="combobox" aria-autocomplete="list" autocomplete="off"></div><div class="tip">想用 @ 提到谁？</div></div></div><div class="zm-command clearfix"><label class="zg-left anno-box" style="-webkit-user-select: none;"><input name="anno-checkbox" type="checkbox" style="-webkit-user-select: none;"> 匿名 <span style="-webkit-user-select: none;">&nbsp;</span></label> <label class="zg-left copyright-box"><input name="copyright-checkbox" type="checkbox">未经许可，禁止转载<a href="https://www.zhihu.com/terms#sec-licence-6" target="_blank"><i class="zg-icon zg-icon-question-mark" style="margin-left: 5px" id="copyright_question_mark" data-copyright-demo="true"></i></a></label> <span class=" zg-right"><a class="submit-button zg-btn-blue" name="save" href="javascript:">发布回答</a></span><div class="draft-controls zg-right "><span class="draft-saved-info" style="display: none;"><a class="draft-clear-button goog-inline-block" href="https://www.zhihu.com/question/27393324#" data-tip="s$b$删除草稿"><i class="zg-icon zg-icon-bin"></i><span class="hide-text">清除草稿</span></a><span class="draft-saved-time"></span></span></div></div></div>
+</div>
+
+<!-- 版权演示 -->
+
+<script type="text/x-template" id="copyright-demo-template">
+<article>
+
+<section>
+<p class="copyright-demo-title"> 这是你的回答正文 </p>
+<div class="copyright-demo-region"></div>
+<div class="copyright-demo-region"></div>
+<div class="copyright-demo-region"></div>
+<div class="copyright-demo-region"></div>
+<div class="copyright-demo-region"></div>
+</section>
+
+<section>
+<p class="copyright-demo-title"> 当其他人想复制你的一段回答 </p>
+<div class="copyright-demo-region frame2-region" id="copyright-demo-region1">
+<span class="copyright-ico-indicator" id="copyright-demo-indicator"></span>
+</div>
+<div class="copyright-demo-region frame2-region" id="copyright-demo-region2"></div>
+<div class="copyright-demo-region frame2-region" id="copyright-demo-region3"></div>
+<div class="copyright-demo-region frame2-region" id="copyright-demo-region4"></div>
+<div class="copyright-demo-region"></div>
+</section>
+
+<section id="copyright-demo-frame3">
+<p class="copyright-demo-title"> 复制将受限，同时会弹出提醒 </p>
+<div class="copyright-demo-region copyright-demo-region-selected"></div>
+<div class="copyright-demo-region copyright-demo-region-selected"></div>
+<div class="copyright-demo-region copyright-demo-region-selected"></div>
+<div class="copyright-demo-region copyright-demo-region-selected"></div>
+<div class="copyright-demo-region"></div>
+<span class="copyright-ico-pointer copyright-demo-pointer"></span>
+</section>
+</article>
+</script>
+
+
+
+</div>
+</div>
+
+
+<div class="zu-main-sidebar">
+
+<div class="zm-side-section">
+<div class="zm-side-section-inner" id="zh-question-side-header-wrap">
+<button data-follow="q:m:button" class="follow-button zg-unfollow zg-btn-white" data-id="3140238">取消关注</button>
+
+<div class="zg-btn-white goog-inline-block goog-menu-button" id="zh-question-operation-menu" role="button" aria-expanded="false" tabindex="0" aria-haspopup="true" style="-webkit-user-select: none;"><div class="goog-inline-block goog-menu-button-outer-box"><div class="goog-inline-block goog-menu-button-inner-box"><div class="goog-inline-block goog-menu-button-caption"><i class="zg-icon-dropdown-menu zg-icon"></i><b class="hide-text">设置</b></div><div class="goog-inline-block goog-menu-button-dropdown">&nbsp;</div></div></div></div>
+
+<div class="zh-question-followers-sidebar">
+<div class="zg-gray-normal">
+
+<a href="https://www.zhihu.com/question/27393324/followers"><strong>25</strong></a>
+人关注该问题
+
+</div>
+
+<div class="list zu-small-avatar-list zg-clear">
+
+<a title="shangming YANG" data-tip="p$t$yang-ming-7-32" class="zm-item-link-avatar" href="https://www.zhihu.com/people/yang-ming-7-32">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/fbc70085fb2d6be6035a0bd8c2a28b22_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="龙遥" data-tip="p$t$longyao" class="zm-item-link-avatar" href="https://www.zhihu.com/people/longyao">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/4350ac092b5bcb59aa5096e73f511afa_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="顾非" data-tip="p$t$gu-fei-39-15" class="zm-item-link-avatar" href="https://www.zhihu.com/people/gu-fei-39-15">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/466dd3608_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="铭洋" data-tip="p$t$ming-yang-64" class="zm-item-link-avatar" href="https://www.zhihu.com/people/ming-yang-64">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/6de225cf5_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="beanfrog" data-tip="p$t$beanfrog" class="zm-item-link-avatar" href="https://www.zhihu.com/people/beanfrog">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/ce85cbcc1b862e96eb9284c8c112ed94_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="卧锦" data-tip="p$t$tqtang" class="zm-item-link-avatar" href="https://www.zhihu.com/people/tqtang">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/b42f559de_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="Ling Zhan" data-tip="p$t$lealzhan" class="zm-item-link-avatar" href="https://www.zhihu.com/people/lealzhan">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/68c78d34c8bfee221f8814680c62da18_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="甘宇飞" data-tip="p$t$GanYuFei" class="zm-item-link-avatar" href="https://www.zhihu.com/people/GanYuFei">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/6f9ea282e4f0766b67af7c17871db30d_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="Terry" data-tip="p$t$terry-10" class="zm-item-link-avatar" href="https://www.zhihu.com/people/terry-10">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/e5fa022803747ce901f2182e405fd41e_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="Heinz" data-tip="p$t$heinzchen" class="zm-item-link-avatar" href="https://www.zhihu.com/people/heinzchen">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/805c0c93ff18fb151e6926632a4b4baa_s.png" class="zm-item-img-avatar">
+</a>
+
+<a title="金祎" data-tip="p$t$jin-yi-66-65" class="zm-item-link-avatar" href="https://www.zhihu.com/people/jin-yi-66-65">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/da8e974dc_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="李凯" data-tip="p$t$li-kai-17" class="zm-item-link-avatar" href="https://www.zhihu.com/people/li-kai-17">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/2a749fdf2_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="Wang Gu" data-tip="p$t$wang-gu-30" class="zm-item-link-avatar" href="https://www.zhihu.com/people/wang-gu-30">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/a9dc71b45_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="曲哲" data-tip="p$t$qu-zhe-63" class="zm-item-link-avatar" href="https://www.zhihu.com/people/qu-zhe-63">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/da8e974dc_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="小土" data-tip="p$t$xiao-tu-16-21" class="zm-item-link-avatar" href="https://www.zhihu.com/people/xiao-tu-16-21">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/da8e974dc_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="潘博阳" data-tip="p$t$pan-bo-yang" class="zm-item-link-avatar" href="https://www.zhihu.com/people/pan-bo-yang">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/67acc577983967739562c097cb62b1e3_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="阿朋" data-tip="p$t$a-peng-34-4" class="zm-item-link-avatar" href="https://www.zhihu.com/people/a-peng-34-4">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/cf621fda89086f9135c4f3388b385230_s.jpg" class="zm-item-img-avatar">
+</a>
+
+<a title="孤山桥影" data-tip="p$t$gushan" class="zm-item-link-avatar" href="https://www.zhihu.com/people/gushan">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/da8e974dc_s.jpg" class="zm-item-img-avatar">
+</a>
+
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="shameimaru-placeholder" data-class="QuestionUpShameimaruV2" data-params="{&quot;token&quot;:27393324}"></div>
+<div class="new-shameimaru-section" data-track="https://sugar.zhihu.com/track?ad=20&amp;cg=1&amp;ts=1451237071.34&amp;sign=1a36c2481c2aa797b362274189bcebbc&amp;zid=3&amp;hn=ad01&amp;sid=fd32502629e3434eb77b97ec991a3b81&amp;utid=3328123b69fe4c10a34998b841d2c9e6&amp;uid=4307855">
+<a class="shameimaru-link" href="https://sugar.zhihu.com/track?ad=20&amp;cg=1&amp;ts=1451237071.34&amp;sign=a371de7f20a40a218a36862f4b7e700b&amp;action=click&amp;zid=3&amp;hn=ad01&amp;sid=fd32502629e3434eb77b97ec991a3b81&amp;utid=3328123b69fe4c10a34998b841d2c9e6&amp;target=http%3A//zhuanlan.zhihu.com/Weekly/20443867&amp;uid=4307855" target="_blank" rel="nofollow">
+<img src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/cab7cf630f093594d74e64d56ce99fb5_270x225.jpg" srcset="https://pic4.zhimg.com/cab7cf630f093594d74e64d56ce99fb5_540x450.jpg 2x" alt="周刊-增肌塑形指南">
+</a>
+<a class="shameimaru-close z-ico-shameimaru-close" data-tip="s$b$不再显示" rel="nofollow"></a>
+
+<img class="shameimaru-pixel" src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/track">
+
+</div>
+<div class="zm-side-section">
+<div class="zm-side-section-inner">
+<div id="zh-question-related-questions" class="zh-question-related-questions clearfix">
+
+<h3>相关问题</h3>
+<ul itemprop="relatedQuestion" itemscope="" itemtype="http://schema.org/ItemList">
+
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Question"><a class="question_link" href="https://www.zhihu.com/question/25910237">为什么选SCI做科研成果（论文）的标准？</a> <span class="num">2 个回答</span><meta itemprop="followerCount" content="25"></li>
+
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Question"><a class="question_link" href="https://www.zhihu.com/question/21980275">如何查找别人论文（计算机类文献）中实验的代码？</a> <span class="num">1 个回答</span><meta itemprop="followerCount" content="82"></li>
+
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Question"><a class="question_link" href="https://www.zhihu.com/question/26613583">通过何种途径可查阅外国网站（包括台湾）论文等文献资料？</a> <span class="num">1 个回答</span><meta itemprop="followerCount" content="19"></li>
+
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Question"><a class="question_link" href="https://www.zhihu.com/question/21690166">如何学习（记住）linux命令（常用选项）？</a> <span class="num">19 个回答</span><meta itemprop="followerCount" content="106"></li>
+
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Question"><a class="question_link" href="https://www.zhihu.com/question/24113262">韩寒的人文社科（文学、国学、历史、政治等）知识储备有哪些缺陷？</a> <span class="num">8 个回答</span><meta itemprop="followerCount" content="43"></li>
+
+</ul>
+</div>
+</div>
+</div>
+<div class="zm-side-section">
+<div class="zm-side-section-inner">
+<h3>问题状态</h3>
+<div class="zg-gray-normal">
+最近活动于 <span class="time">2015-12-23</span>
+<span class="zg-bull">•</span>
+<a href="https://www.zhihu.com/question/27393324/log">查看问题日志</a>
+</div>
+<div class="zg-gray-normal">
+被浏览 <strong>1064</strong> 次，相关话题关注者 <strong>46416</strong> 人
+</div>
+</div>
+</div>
+<div class="shameimaru-placeholder" data-class="QuestionDownShameimaruV2" data-params="{&quot;token&quot;:27393324}"></div>
+
+
+</div>
+
+
+</div>
+
+
+<div id="zh-footer" class="zh-footer">
+<div class="content zg-wrap clearfix">
+<ul>
+
+<li><a href="https://liukanshan.zhihu.com/" target="_blank">刘看山</a></li>
+
+<li><a href="https://www.zhihu.com/question/19581624" target="_blank">知乎指南</a></li>
+<li><a href="javascript:;" id="js-feedback-button">建议反馈</a></li>
+
+<li><a href="https://www.zhihu.com/app" target="_blank">移动应用</a></li>
+<li><a href="https://www.zhihu.com/careers">加入知乎</a></li>
+<li><a href="https://www.zhihu.com/terms" target="_blank">知乎协议</a></li>
+<li><a href="mailto:bd@zhihu.com">商务合作</a></li>
+
+</ul>
+
+<span class="copy">© 2015 知乎</span>
+
+</div>
+</div>
+
+<script type="text/json" class="json-inline" data-name="guiders2">{"exclusive-popover":{},"section":{},"editor":[]}</script>
+<script type="text/template" class="unblock-dialog-template">
+<div class="unblock-dialog-view unblock-dialog-message">
+<p class="unblock-dialog-text">
+非常抱歉，您的帐号由于存在异常行为暂时被知乎反作弊系统限制使用。如果您觉得是误伤，可以发短信恢复帐号使用：
+</p>
+<p class="unblock-dialog-text">
+编辑短信内容 <span class="js-token"></span><br>
+联通用户请发到 1069 0275 21212<br>
+移动用户请发到 1069 0204 21212<br>
+电信用户请发到 1069 0275 21212<br>
+</p>
+<p class="unblock-dialog-text">
+短信发送完毕后，请点击「我已发完短信」。<br>
+<span class="unblock-dialog-timeout">短信内容 <span class="js-timeout"></span> 分钟内有效</span>
+</p>
+<div class="unblock-dialog-error">错误提示</div>
+<div class="unblock-dialog-menu">
+<button class="unblock-dialog-btn js-sent zg-btn-blue">我已发完短信</button>
+<span class="unblock-dialog-loading"></span>
+<a class="js-appeal" href="#">无法发送短信，向管理员申诉</a>
+</div>
+</div>
+<div class="unblock-dialog-view unblock-dialog-appeal">
+<p class="unblock-dialog-text">为了保证你的帐号安全，请输入验证码。</p>
+<div class="unblock-dialog-captcha">
+<input class="zg-form-text-input" placeholder="输入验证码">
+<img class="js-refresh-captcha">
+<a class="js-refresh-captcha" href="#">换一张</a>
+</div>
+<div class="unblock-dialog-error">错误提示</div>
+<div class="unblock-dialog-menu">
+<button class="unblock-dialog-btn js-verify zg-btn-blue">验证并提交</button>
+<span class="unblock-dialog-loading"></span>
+<a class="js-message" href="#">返回帐号解封</a>
+</div>
+</div>
+<div class="unblock-dialog-view unblock-dialog-success">
+<span class="unblock-dialog-success-icon sprite-rare-icon-ok"></span>
+<div class="unblock-dialog-success-text"></div>
+<div class="unblock-dialog-success-time"><span class="js-count-down">5</span> 秒后自动关闭</div>
+</div>
+</script>
+<script type="text/json" class="json-inline" data-name="current_user">["Ling Zhan","lealzhan","https:\/\/pic1.zhimg.com\/68c78d34c8bfee221f8814680c62da18_s.jpg","0ffac49f4d94eebd2dad272ec5a37cfe","",0,0,1,"lealzhan@126.com","http:\/\/www.126.com",0,true,false,false,"44744226897920"]</script>
+<script type="text/json" class="json-inline" data-name="user_status">[null,null]</script>
+<script type="text/json" class="json-inline" data-name="env">["zhihu.com","comet.zhihu.com",false,null]</script>
+<script type="text/json" class="json-inline" data-name="permissions">[]</script>
+
+
+<script type="text/json" class="json-inline" data-name="ga_vars">{"user_created":1395184693000,"now":1451237070000,"abtest_mask":"---------1--------------------","user_attr":[1,0,0,"-",1],"user_hash":"0ffac49f4d94eebd2dad272ec5a37cfe"}</script>
+
+<script type="text/json" class="json-inline" data-name="current_question">{"status":"normal","isLocked":0,"detailEditReasonRequired":true,"editPermission":false,"isAnon":0,"qid":3140238,"urlToken":27393324,"showInvitePanel":true,"askAboutMember":0}</script>
+<script type="text/json" class="json-inline" data-name="current_question_owner">false</script>
+<script type="text/json" class="json-inline" data-name="draft">[]</script>
+<script type="text/json" class="json-inline" data-name="my_answer">{}</script>
+<script type="text/json" class="json-inline" data-name="current_question_bio">{"selected_bio":"headline","type":"HEADLINE","value":""}</script>
+
+<script type="text/json" class="json-inline" data-name="redirect_to">""</script>
+
+
+
+<script src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/vendor.1a51eb6e.js"></script>
+<script src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/common.7e4d2378.js"></script>
+
+
+<script src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/richtexteditor.c8a50927.js" async=""></script>
+<script src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/page-main.fdaed143.js"></script>
+<meta name="entry" content="ZH.entrySQ" data-module-id="page-main">
+
+<script type="text/zscript" znonce="659d7225a95c4765af88a99a528b50a2"></script>
+
+<input type="hidden" name="_xsrf" value="3b03de9d64634d962897dcd765a82c90">
+
+<div class="zh-backtotop" style="display:none"><a data-action="backtotop" data-tip="s$r$回到顶部" href="javascript:;" class="btn-backtotop btn-action"><div class="arrow"></div><div class="stick"></div></a></div><div id="copyright-demo-helper" style="display: none; position: absolute;"><p class="copyright-demo-helper-intro"> 勾选后，我们将限制其他用户的复制操作，并给予提醒 </p><p class="copyright-demo-helper-btn"> 查看演示 </p></div><div id="zh-tooltip"></div><div class="modal-dialog-bg" style="display: none; opacity: 0.5;"></div><div class="modal-dialog" tabindex="0" role="dialog" aria-labelledby=":w" style="display: none; width: 462px;"><div class="modal-dialog-title modal-dialog-title-draggable"><span class="modal-dialog-title-text" id=":w" role="heading">禁止转载演示</span><span class="modal-dialog-title-close" role="button" tabindex="0" aria-label="Close"></span></div><div class="modal-dialog-content"><div class="carousel copyright-demo"><div class="carousel-navigation-btn"><div class="carousel-left-btn copyright-ico-prev"> </div></div><div class="carousel-content"><section class="carousel-inner-content" style="display: block;">
+<p class="copyright-demo-title"> 这是你的回答正文 </p>
+<div class="copyright-demo-region"></div>
+<div class="copyright-demo-region"></div>
+<div class="copyright-demo-region"></div>
+<div class="copyright-demo-region"></div>
+<div class="copyright-demo-region"></div>
+</section><section class="carousel-inner-content">
+<p class="copyright-demo-title"> 当其他人想复制你的一段回答 </p>
+<div class="copyright-demo-region frame2-region" id="copyright-demo-region1">
+<span class="copyright-ico-indicator" id="copyright-demo-indicator"></span>
+</div>
+<div class="copyright-demo-region frame2-region" id="copyright-demo-region2"></div>
+<div class="copyright-demo-region frame2-region" id="copyright-demo-region3"></div>
+<div class="copyright-demo-region frame2-region" id="copyright-demo-region4"></div>
+<div class="copyright-demo-region"></div>
+</section><section id="copyright-demo-frame3" class="carousel-inner-content">
+<p class="copyright-demo-title"> 复制将受限，同时会弹出提醒 </p>
+<div class="copyright-demo-region copyright-demo-region-selected"></div>
+<div class="copyright-demo-region copyright-demo-region-selected"></div>
+<div class="copyright-demo-region copyright-demo-region-selected"></div>
+<div class="copyright-demo-region copyright-demo-region-selected"></div>
+<div class="copyright-demo-region"></div>
+<span class="copyright-ico-pointer copyright-demo-pointer"></span>
+<div class="copyright-notification copyright-demo-noty"><div class="user-image-container"><img class="user-image" src="./有谁能讲解下《Going deeper with convolutions》这篇论文？ - 知乎_files/68c78d34c8bfee221f8814680c62da18_s.jpg"></div><div class="tooltip right noty-tooltip"><div class="tooltip-arrow arrow"> </div><div class="tooltip-inner inner"> 如需转载，请通过私信或评论联系我 </div></div></div></section><div class="carousel-navigation-dot-group"><div class="carousel-dot carousel-dot-selected"></div><div class="carousel-dot"></div><div class="carousel-dot"></div></div></div><div class="carousel-navigation-btn"><div class="carousel-right-btn copyright-ico-next"> </div></div></div></div><div class="modal-dialog-buttons" style="display: none;"></div></div><span tabindex="0" style="display: none; position: absolute;"></span><div style="display: none;"><div class="lang-select collapsed"><div class="title-button" style="-webkit-user-select: none;">选择语言</div><i class="zg-icon zg-icon-double-arrow"></i><div class="input-wrapper"><input class="filter-input zg-form-text-input" placeholder="搜索语言" role="combobox" aria-autocomplete="list"></div></div></div><div></div></body></html>

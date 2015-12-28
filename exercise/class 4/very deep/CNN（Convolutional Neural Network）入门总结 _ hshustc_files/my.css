@@ -1,0 +1,49 @@
+/*   
+	 Showguests CSS
+*/
+
+.showguests img{
+	width: 50px;
+	height: 50px;
+	-moz-box-shadow: 2px 2px 2px #000;
+    -webkit-box-shadow: 2px 2px 2px #000;
+    box-shadow: 2px 2px 2px #000;
+	margin: 3px 3px 3px 3px;
+}
+.showguests img:hover {
+    -moz-transform:scaleX(-1);
+    -webkit-transform:scaleX(-1);
+    -o-transform:scaleX(-1);
+    transform:scaleX(-1);
+    /*IE*/
+    filter:FlipH; 
+}
+.avatar {
+    margin-right: 10px;
+	float: left;
+	padding: 2px;
+	border: 1px solid #ddd;
+	background: #fff;
+
+}
+.widget-area .showguestscss ul {
+	padding: 0px 0px 0px 5px;
+	overflow:hidden;
+}
+.widget .showguestscss ul {
+	padding: 0px 0px 0px 5px;
+	overflow:hidden;
+}
+.widget-area .showguestscss ul {
+	padding: 0px 0px 0px 5px;
+	overflow:hidden;
+}
+.fullwidget .showguestscss ul {
+	padding: 0px 0px 0px 5px;
+	overflow:hidden;
+}
+
+
+
+
+

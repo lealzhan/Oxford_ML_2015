@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)http://www.ithao123.cn/content-8110304.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="http://i.jiathis.com/url/shares.php?url=http%3A%2F%2Fwww.ithao123.cn%2Fcontent-8110304.html" charset="utf-8"></script><script src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/hm.js"></script><script src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/id.php" charset="utf-8"></script>
+    <meta charset="UTF-8">
+    <title>深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站</title>
+    <meta name="keywords" content="深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition">
+    <meta name="description" content="深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_原文：http://blog.csdn.net/whiteinblue/article/details/43560491 本文是牛津大学 visual geometry group（VGG）Karen Simonyan 和Andrew Zisserman 于14年撰写的论文，主要探讨了深度对于网络的重要性；并建立了一">
+
+    <meta name="mobile-agent" content="format=[wml|xhtml|html5]; url=http://m.ithao123.cn/content-8110304.html">
+    <link href="http://m.ithao123.cn/content-8110304.html" rel="alternate" media="only screen and (max-width: 640px)">
+
+    <meta name="applicable-device" content="pc">
+
+    <link rel="stylesheet" type="text/css" href="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/base.css" media="all">
+    <link rel="stylesheet" type="text/css" href="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/footer.css" media="all">
+	
+	<script src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/uaredirect.js"></script>
+	
+	<script type="text/javascript">uaredirect("http://m.ithao123.cn/content-8110304.html");</script>
+
+
+
+    <script>
+
+
+        var IS_LOGIN 	= "";
+        var LEIPHONE_HOME_URL = USER_CENTER  = "http://zhuanti.ithao123.cn/";
+    </script>
+
+    <!--[if IE]>
+    <script>
+        (function(){var e="abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video".split(', ');var i=e.length;while(i--){document.createElement(e[i])}})()
+    </script>
+    <![endif]-->
+
+    <script src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/sea.js"></script>
+    <script src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/jquery.js"></script><style type="text/css"></style>
+    <script src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/tips.js"></script><link rel="stylesheet" href="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/tips.css">
+    <link rel="stylesheet" href="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/tips(1).css">
+<!--
+    <script src="http://www.ithao123.cn/statics/zhuanti/js/global.js"></script>
+    -->
+    <script>
+        seajs.use('http://www.ithao123.cn/statics/zhuanti/js/global.js',function(){
+        });
+    </script>
+
+    <!--
+    <script src="/statics/zhuanti/js/sea.js"></script>
+    <script src="/statics/zhuanti/js/jquery.js"></script>
+    -->
+
+    <link rel="stylesheet" href="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/yp_login.css">
+    <link rel="stylesheet" href="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/share_style0_16.css">
+</head>
+<body><link href="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/jiathis_counter.css" rel="stylesheet" type="text/css"><link href="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/jiathis_share.css" rel="stylesheet" type="text/css"><iframe frameborder="0" style="position: absolute; display: none; opacity: 0;"></iframe><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; top: 50%; left: 50%; overflow: auto;"></div><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; overflow: auto;"></div><iframe frameborder="0" src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/jiathis_utility.html" style="display: none;"></iframe>
+
+
+<div class="header">
+    <div class="w1200 auto">
+        <div class="header_nav">
+            <ul>
+                <li><a href="http://www.ithao123.cn/">IThao123首页</a></li>
+                <li><a href="http://m.ithao123.cn/">手机版</a></li>
+                <!--
+                <li>
+                    <a href="#"><span class="l">网站导航</span><i class="r"></i></a>
+                </li>
+
+                <li><a href="#" rel="nofollow">帮助中心</a></li>
+                -->
+
+            </ul>
+        </div>
+        <div class="header_login">
+            欢迎来到IThao123.cn！
+            			            您尚未 [&nbsp;<a href="http://www.ithao123.cn/index.php?m=member&amp;c=index&amp;a=login" class="red" rel="nofollow">登录</a>&nbsp;]
+            或 [&nbsp;<a href="http://www.ithao123.cn/index.php?m=member&amp;c=index&amp;a=register&amp;siteid=1" class="red" rel="nofollow">注册</a>&nbsp;]
+                    </div>
+    </div>
+</div>
+
+
+
+<header class="yp-header">
+    <div class="yp-header-top  inner clr">
+        <a class="yp-header-logo" href="http://www.ithao123.cn/">
+            <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/lp_logo.png" height="52" alt="logo">
+            <span style="color:#DC6E4B;">
+				&nbsp;&nbsp;&nbsp;专注互联网行业
+			</span>
+        </a>
+        <!--
+        <div class="yp-header-user-box">
+            <div class="yp-header-user"><input type="hidden" id="is_login_tag_status" value="0"><div class="user-main"><div class="avatar"><img width="36" height="36" src="/statics/zhuanti/images/noLogin.jpg" alt=""></div><span class="nickname">用户</span><span class="arrow"></span></div><div class="user-link"><ul><li class="l1"><a href="javascript:YP_LOGIN_WINDOW.show();"><i></i>登录</a></li><li class="l2"><a href="http://home.ithao123.cn/main/register?returnUrl=http%3A%2F%2Fwww.ithao123.cn%2Fcategory%2Fzixun"><i></i>注册</a></li></ul></div></div>
+        </div>
+        -->
+        <div class="yp-header-search">
+            <form method="GET" action="" style="height: 100%;">
+                <input class="text" type="text" id="searchq" name="q" autocomplete="off" value="">
+                <input class="submit" type="botton" id="searchbtn" value="">
+            </form>
+        </div>
+    </div>
+
+
+    <nav class="yp-header-nav" id="yp-header-nav">
+        <div class="inner clr">
+            <div class="yp-header-menu">
+                <span class="arrow" style="left: 30px; display: block;"></span>
+                <ul>
+                    <li><a href="http://www.ithao123.cn/">首页</a></li>
+                    <li class="ej" data-dl="newsDl"><a href="http://zixun.ithao123.cn/">资讯<span class="arro"></span></a>
+                        <div class="news-menu">
+                                                        <div class="dline">
+                                                                                                                                <a href="http://www.ithao123.cn/news/dashuju/">大数据</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/yejie/">业界</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/shouji/">移动互联</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/chuangye/">创业</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/touzi/">投资</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/jiaoyu/">IT教育</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/wangluo/">网络</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/anquan/">安全</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/jishu/">技术</a><span>|</span>
+                                                                </div><div class="dline">                                                                                                                                <a href="http://www.ithao123.cn/news/chanpin/">产品</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/yunying/">运营</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/dianshang/">电子商务</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/pingce/">评测攻略</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/sheji/">设计</a><span>|</span>
+                                                                                                                                                                                                <a href="http://www.ithao123.cn/news/youxi/">游戏</a><span>|</span>
+                                                                                                                                                            </div>
+                            
+                        </div>
+                    </li>
+                    <li class="ej"><a href="http://zhuanti.ithao123.cn/">专题<span class="arro"></span></a>
+
+                        <div class="news-menu">
+                            <div class="dline">
+                                <a href="http://zhuanti.ithao123.cn/jishu/">技术</a><span>|</span>
+                                <a href="http://zhuanti.ithao123.cn/chanpin/">产品</a><span>|</span>
+                                <a href="http://zhuanti.ithao123.cn/yunying/">运营</a><span>|</span>
+                                <a href="http://zhuanti.ithao123.cn/zhanzhang/">站长学院</a><span>|</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="http://zhoukan.ithao123.cn/">周刊</a></li>
+                    <li class="ej"><a href="http://jishu.ithao123.cn/">技术<span class="arro"></span></a>
+
+
+                        <div class="news-menu">
+                                                                <div class="dline">
+                                                                                                                                                <a href="http://biancheng.ithao123.cn/">编程</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://yidong.ithao123.cn/">移动开发</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://web.ithao123.cn/">web开发</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://db.ithao123.cn/">架构存储</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://yun.ithao123.cn/">云计算</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://wangluo.ithao123.cn/">网络安全</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://xitong.ithao123.cn/">系统</a><span>|</span>
+                                                                                                                                                                         </div>
+                                
+                        </div>
+
+                    </li>
+                    <li class="ej"><a href="http://chanpin.ithao123.cn/">产品<span class="arro"></span></a>
+                        <div class="news-menu">
+
+                                                                <div class="dline">
+                                                                                                                                                <a href="http://www.ithao123.cn/chanpin/sheji/">产品设计</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/chanpin/tiyan/">用户体验</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/chanpin/seo/">SEO优化</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/chanpin/youhua/">产品优化</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/chanpin/guanli/">产品管理</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/chanpin/xuqiu/">需求分析</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/chanpin/wendang/">产品文档</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/chanpin/gongju/">常用工具</a><span>|</span>
+                                                                        </div><div class="dline">                                                                                                                                        <a href="http://www.ithao123.cn/chanpin/xiangmu/">项目管理</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/chanpin/yonghudiaoyan/">用户调研</a><span>|</span>
+                                                                                                                                                                    </div>
+                                
+
+
+                        </div>
+                    </li>
+                    <li class="ej"><a href="http://yunying.ithao123.cn/">运营<span class="arro"></span></a>
+
+                        <div class="news-menu">
+
+                                                                <div class="dline">
+                                                                                                                                                <a href="http://www.ithao123.cn/yunying/chanpin/">产品运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/cehua/">运营策划</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/shangye/">商业产品运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/wangzhan/">网站运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/yonghu/">用户运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/neirong/">内容运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/guanxi/">关系运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/app/">APP运营</a><span>|</span>
+                                                                        </div><div class="dline">                                                                                                                                        <a href="http://www.ithao123.cn/yunying/dianshang/">电商运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/shequ/">社区运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/shichang/">市场运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/qudao/">渠道运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/huati/">话题运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/huodong/">活动运营</a><span>|</span>
+                                                                                                                                                                                                                <a href="http://www.ithao123.cn/yunying/youxiyunying/">游戏运营</a><span>|</span>
+                                                                                                                                                                    </div>
+                                
+
+
+                        </div>
+                    </li>
+                    <li class="ej"><a href="http://sheji.ithao123.cn/">设计<span class="arro"></span></a>
+
+                        <div class="news-menu">
+
+                                                        <div class="dline">
+                                                                                                                                <a href="http://www.ithao123.cn/sheji/tiyan/">用户体验设计</a><span>|</span>
+                                                                                                                                                                                        <a href="http://www.ithao123.cn/sheji/jiaohu/">交互设计</a><span>|</span>
+                                                                                                                                                                                        <a href="http://www.ithao123.cn/sheji/jiemian/">用户界面设计</a><span>|</span>
+                                                                                                                                                                                        <a href="http://www.ithao123.cn/sheji/shijue/">视觉设计</a><span>|</span>
+                                                                                                                                                                                        <a href="http://www.ithao123.cn/sheji/sheying/">摄影教程</a><span>|</span>
+                                                                                                                                                                                        <a href="http://www.ithao123.cn/sheji/ps/">photoshop教程</a><span>|</span>
+                                                                </div><div class="dline">                                                                                                                        <a href="http://www.ithao123.cn/sheji/fireworks/">Fireworks教程</a><span>|</span>
+                                                                                                                                                                                        <a href="http://www.ithao123.cn/sheji/coreldraw/">CorelDraw教程</a><span>|</span>
+                                                                                                                                                                                        <a href="http://www.ithao123.cn/sheji/illustrator/">Illustrator教程</a><span>|</span>
+                                                                                                                                                                                        <a href="http://www.ithao123.cn/sheji/painter/">Painter教程</a><span>|</span>
+                                                                                                                                                                                        <a href="http://www.ithao123.cn/sheji/freehand/">Freehand教程</a><span>|</span>
+                                                                                                                                                                                        <a href="http://www.ithao123.cn/sheji/indesign/">Indesign</a><span>|</span>
+                                                                </div><div class="dline">                                                                                </div>
+                            
+
+
+                        </div>
+                    </li>
+                    <!--
+                    <li><a href="http://www.wenda114.com/c-10001/" target="_blank">问答</a></li>
+                    <li><a href="http://www.wocaiwang.cn" target="_blank">培训</a></li>
+                    <li><a href="http://www.ithao123.cn/huodong/" rel="nofollow">活动</a></li>
+                    <li><a href="#" rel="nofollow">招聘</a></li>
+                    -->
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+
+
+
+</header>
+
+<link rel="stylesheet" type="text/css" href="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/article.css" media="all">
+<link rel="stylesheet" type="text/css" href="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/artCont_web_admin.css" media="all">
+
+<div class="index-main lph-main clr">
+    <div class="inner">
+
+        <div>
+            <a href="http://www.ithao123.cn/">首页</a><span> &gt; </span>
+                                                <a href="http://www.ithao123.cn/wenku/">精品文库</a><span> &gt; </span>
+                                    深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition        </div>
+        <div class="article-left lph-left">
+            <div class="pageTop">
+                <h1>深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition</h1>
+            </div>
+            <!-- pageTop END-->
+            <div class="pageInfo clr">
+                <div class="pi-author">
+                    <!--
+                    <span>1970-01-01</span>
+
+                    <span>10:33</span>
+                    <i style="color:#FD5D3C;">原创</i>
+                    <a href="#" target="_blank">橙太白</a>
+                    -->
+                </div>
+                <!-- pi-author END -->
+                <div class="pi-comment">
+                    <a href="javascript:void(0);"><span>0</span><span>条评论</span></a>
+                </div>
+                <!-- pi-comment END -->
+            </div>
+            <!-- pageInfo END -->
+
+            <div style="width: 100%;float: left;margin-top: 10px;margin-bottom: 20px;clear: both;">
+			
+				<div style="width: 780px;float: left;">
+                    <script type="text/javascript">
+                        var cpro_id="u2313137";
+                        (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"780",rsi1:"90",pat:"1",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"0",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0",tft:"0",tlt:"1",ptbg:"90",piw:"0",pih:"0",ptp:"0"}
+                    </script>
+                    <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+                </div>
+			
+				<div style="width:780px;text-align:center;margin:0 auto;">
+                    <script>
+					(function() {
+						var s = "_" + Math.random().toString(36).slice(2);
+						document.write('<div id="' + s + '"></div>');
+						(window.slotbydup=window.slotbydup || []).push({
+							id: '2363236',
+							container: s,
+							size: '760,90',
+							display: 'inlay-fix'
+						});
+					})();
+					</script><div id="_12fzz43mo7096bt9"></div>
+					<script src="http://dup.baidustatic.com/js/os.js"></script>
+                </div>
+				
+				<div style="width:780px;text-align:center;margin:0 auto;">
+                    <a href="http://ithao123.100xuexi.com/" target="_blank" rel="nofollow"><img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/20151217104039803.png"></a>
+                </div>
+				
+				
+				
+
+
+            </div>
+            <div class="pageCont lph-article-comView ">
+
+
+                <p style="text-align: center;"><span style="line-height: 1.8;"></span></p>
+				
+				[摘要：本文：http://blog.csdn.net/whiteinblue/article/details/43560491 本文是牛津大教 visual geometry group（VGG）Karen Simonyan 战Andrew Zisserman 于14年撰写的论文，首要商量了深度对收集的紧张性；并设立建设了一] <br><br>
+
+                <p>原文：http://blog.csdn.net/whiteinblue/article/details/43560491</p>  <p></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">本文是牛津大学 visual geometry group（VGG）Karen Simonyan 和Andrew Zisserman 于14年撰写的论文，主要探讨了深度对于网络的重要性；并建立了一个19层的深度网络获得了很好的结果；在ILSVRC上定位第一，分类第二。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;; font-size:24px">一：摘要</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">……</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">从Alex-net发展而来的网络主要修改一下两个方面：</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">1，在第一个卷基层层使用更小的filter尺寸和间隔；</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">2，在整个图片和multi-scale上训练和测试图片。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;; font-size:24px">二：网络配置</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;"><strong>2.1配置</strong></span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">2.1.1 小的Filter尺寸为3*3</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">卷积的间隔s=1；3*3的卷基层有1个像素的填充。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">1：3*3是最小的能够捕获上下左右和中心概念的尺寸。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">2：两个3*3的卷基层的有限感受野是5*5；三个3*3的感受野是7*7，可以替代大的filter尺寸</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">3：多个3*3的卷基层比一个大尺寸filter卷基层有更多的非线性，使得判决函数更加具有判决性。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">4：多个3*3的卷积层比一个大尺寸的filter有更少的参数，假设卷基层的输入和输出的特征图大小相同为C，那么三个3*3的卷积层参数个数3*（3*3*C*C）=27CC；一个7*7的卷积层参数为49CC；所以可以把三个3*3的filter看成是一个7*7filter的分解（中间层有非线性的分解）。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">2.1.2&nbsp;1*1 filter:</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">作用是在不影响输入输出维数的情况下，对输入线进行线性形变，然后通过Relu进行非线性处理，增加网络的非线性表达能力。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">Pooling：2*2，间隔s=2；</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;"><strong>2.2 结构</strong></span></p>  <p align="center" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/2026ef8aac13496ffcf0380b70ef08b7.jpg" alt="\" style="border:none; max-width:100%"></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">和之前流行的三阶段网络不通的是，本文是有5个max-pooling层，所以是5阶段卷积特征提取。每层的卷积个数从首阶段的64个开始，每个阶段增长一倍，直到达到最高的512个，然后保持。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">基本结构A：</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">Input（224,224,3）→64F（3,3,3,1）→max-p(2,2)→128F（3,3,64,1）→max-p(2,2) →256F（3,3,128,1）→256F（3,3,256,1）→max-p(2,2)→512F（3,3,256,1）→512F（3,3,512,1）→max-p(2,2)→512F（3,3,256,1）→512F（3,3,512,1）→max-p(2,2)→4096fc→4096fc→1000softmax</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">8个卷基层，3个全连接层，共计11层；作者只说明了使用3*3filter的原因，至于层数，阶段数，特征数为什么这么设计，作者并没有说明。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">参数个数：网络E和OverFeat模型参数差不多</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:center">  <span style="font-family:&#39;Microsoft YaHei&#39;"><img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/819f46cfc96d9003c011e12644394b99.jpg" alt="\" style="border:none; max-width:100%"><br>  </span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">B：在A的stage2 和stage3分别增加一个3*3的卷基层，10个卷积层，总计13层</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">C：在B的基础上，stage3，stage4，stage5分别增加1*1的卷积层，13个卷基层，总计16层</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">D：在C的基础上，stage3，stage4，stage5分别增加3*3的卷积层，13个卷基层，总计16层</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">E：在D的基础上，stage3，stage4，stage5分别增加3*3的卷积层，16个卷基层，总计19层</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">&nbsp;</span><span style="font-family:&#39;Microsoft YaHei&#39;; font-size:24px">三，分类框架</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;"><strong>3.1训练参数设置</strong></span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Minibatch=256，其它的都一样。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">作者发现，尽管VGG比Alex-net有更多的参数，更深的层次；但是VGG需要很少的迭代次数就开始收敛。这是因为</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">1，深度和小的filter尺寸起到了隐式的规则化的作用</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">2，一些层的pre-initialisation</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">pre-initialisation：网络A的权值W~（0,0.01）的高斯分布，bias为0；由于存在大量的ReLU函数，不好的权值初始值对于网络训练影响较大。为了绕开这个问题，作者现在通过随机的方式训练最浅的网络A；然后在训练其他网络时，把A的前4个卷基层（感觉是每个阶段的以第一卷积层）和最后全连接层的权值当做其他网络的初始值，未赋值的中间层通过随机初始化。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">Multi-scale 训练</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 把原始 image缩放到最小边S&gt;224；然后在full image上提取224*224片段，进行训练。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">方法1：在S=256，和S=384上训练两个模型，然后求平均</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">方法2：类似OverFeat测试时使用的方法，在[Smin,Smax]scale上，随机选取一个scale，然后提取224*224的图片，训练一个网络。这种方法类似图片尺寸上的数据增益。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;"><strong>3.2 测试</strong></span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">测试阶段的方法和OverFeat测试方法相同，首先选定一个scale：Q，然后在这个图片上应用卷积网络，在最后一个卷积阶段产生unpooled FM，然后利用sliding window方法，每个pooling window产生一个分类输出，然后融合各个pooling window的结果，得到最终分类。这样比10-view更加高效，只需计算一次卷积过程。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;"><strong>3.3 部署细节</strong></span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 利用C++ Caffe toolbox，在4个Titan Gpu上并行计算，比单独GPU快3.75倍，每个网络差不多2-3周。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;; font-size:24px">四，分类实验</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;"><strong>4.1 测试阶段single-scale对比</strong></span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/605033208f3d303ed1f77bec31c1cccf.jpg" alt="\" style="border:none; max-width:100%"></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">A vs A-LRN：A-LRN结果没有A好，说明LRN作用不大。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">A vs B,C,D,E：越深越好</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">A vs C：增加1*1filter，即增加额外的非线性确实提升效果</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">C vs D：3*3的filter比1*1filter要好，使用较大的filter能够捕捉更大的空间特征。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">训练方法：在scale区间[256;512]通过scale增益来训练网络，比在固定的两个S=256和S=512，结果明显提升。Multi-scale训练确实很有用，因为ZF论文中，卷积网络对于缩放有一定的不变性，通过multi-scale训练可以增加这种不变性的能力。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;"><strong>4.2 Multi-scale训练</strong></span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">方法1：single-scale训练 S，multi-scale测试 {S-32,S,S+32}</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">方法2：multi-scale训练[Smin;Smax]，multi-scale测试{Smin，middle，Smax}</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">结果：此处结果为B’</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/c09186309f38eeda2a65bf74cf6d4b1f.jpg" alt="\" style="border:none; max-width:100%"><br>  </p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">1 B vs B’, C vs C’,……:single-scale训练，利用multi-scale测试，有0.2%的top-5提升。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">2 B-256 vs B-384 ……：single-scale在256和348上训练，无论用什么测试方法，结果基本上差不多。说明网络在单个scale上提取能力有限。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">3 multi-scale训练，multi-scale测试，对于网络提升明显，D’和E’的top-5分类达到了7.5%。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;"><strong>4.3 模型融合</strong></span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">通过结果求平均，融合上面不同网络的结果。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/2d9b3329e5df4ea4986426e3121928f7.jpg" alt="\" style="border:none; max-width:100%"><br>  </p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">模型融合结果如上图，比较有意思的是，模型D和E两个顶尖模型融合的结果比融合7个模型的结果还要好。这个比较有意思，模型融合个数多，反而没有两个网络的好。这个是为什么？没有想明白。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;"><strong>4.4和其他网络比较</strong></span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">本文的结果和博文9中的结果有一些差距，感觉可能是训练平台和方法的原因，不同的训练平台和方法对于结果也有影响。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:center">  <span style="font-family:&#39;Microsoft YaHei&#39;"><img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/ee262a0228fd50f0e5eb1d2e4f8d338c.jpg" alt="\" style="border:none; max-width:100%"><br>  </span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;; font-size:24px">五，定位</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;"><strong>5.1 定位网络</strong></span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">和OverFeat的方法类似，使用模型D（参数最少，表现最好）通过回归函数来替换分类器，两种分类方法：SCR(single-classregression)，用一个回归函数来学习预测所有类别的bounding box；PCR（per-class regression）每个类别有自己单独的一个回归函数。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">训练：分别在S=256和S=384上训练两个模型，网络反馈学习时，探究了两种情况1，fine tuning整个网络；2，只调整全连接层。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">测试：</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">第一种测试框架：定位网络只应用在图像的裁剪中心，用于比较不同的网络修改下性能。</span></p>  <p align="center" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/fdd180c1b4582b55865fc775d6e29521.jpg" alt="\" style="border:none; max-width:100%"><br>  </p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">1，发现fine-tuning整个网络的定位性能，比值调整全连接层权值的定位结果要好。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">2，PCR比SCR结果好，这个和OverFeat的结果相反。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">所以最好的定位方法是采用PCR，fine-tuning整个网络。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">第二种测试框架：利用OverFeat的贪婪融合过程（不使用offset pooling），在整个图像上密集应用定位网络；首先根据softmax分类结果给定bounding box的置信得分，然后融合空间相似的bounding box，最后选取最大置信得分的bounding box。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">在不同scale下，定位结果。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:center">  <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/0fd4f26dc8e4e819f01c7e909731bc23.jpg" alt="\" style="border:none; max-width:100%"></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">1，适当的scale对于定位结果有影响S=384好于S=256。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">2，multi-scale比single-scale好。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">3，multi-model fusion会更好。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">和其它state-of-the-art方法比较：</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:center">  <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/f1697c1e2b41963b4ce6619a5bee81ed.jpg" alt="\" style="border:none; max-width:100%"></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">在使用较少的scale下，在不使用offset pooling情况下，本文的结果比OverFeat提高很多；曹成这种提高的原因主要在于网络结构上的不同，好网络，好分类，好定位，估计还有好检测。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;; font-size:24px">六，结论</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">深度是获得好结果的关键。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;"><strong>一些理解和困惑</strong></span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">感觉本文在网络探讨阶段和博文9中探索最优网络比较类似；都是首先提出一个结果不错的基础网络A，然后在网络A上进行一些列的修改，一步一步地提高网络性能，进而探索好的网络设计应该是什么样的；博文9平衡网络各个因素探讨的方式比本文比计较复杂度情况下增加深度，更加精细。而且两篇文章的关于深度的结论相同，深度可以提升结果，但是深度会饱和。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">这里最大的疑问就是他们的网络A是怎么提来的。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">博文9中的A结构：</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">Input（224,224,3）→<span style="color:red">64</span>F(7,7,3,<span style="color:red">s=2</span>) →max-p(3,3,<span style="color:red">3</span>)→<span style="color:red">128</span>F(5,5,64) →max-p<span style="color:red">(2,2,2</span>)   →<span style="color:red">256</span>F(3,3,128)→<span style="color:red">256</span>F(3,3,256)→256F(3,3,256)→<span style="color:red">spp</span>(6*6,3*3,2*2,1*1)→4096fc→4096fc→softmax</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">感觉博文9的结构借鉴了Alex-net，ZF-net和本文的VGG，例如这种三段式结构是从瘦身版的Alex-net和ZF-net中来的，第一个卷积层有64个filter而不是96个，感觉是借鉴了本文第一卷积层的结构；还有就是可能依据本文或OverFeat中剔除了LRN。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">但是本文的结构就找不到关系了， 5阶段，filter的个数尺寸，网络结构等64-128-256-512-512；使用3*3小filter作者已经解释了原因，但是这个关键的网络结构作者并没有给出具体的设计依据，而是直接给出了结果；感觉一个是凭借经验，再有就是凭借实验；结合博文9中的观点，感觉VGG网络还可以利用其中层析替换思想来提高分类结果。</span></p>  <p align="left" style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px">  <span style="font-family:&#39;Microsoft YaHei&#39;">里一个困惑，就是“PCR比SCR结果好，这个和OverFeat的结果相反”；OverFeat中在三scale下 SCR-vs-PCR为31.3-vs-44.1;SCR要明显好于PCR，OverFeat作者的解释是PCR顶层有更多的回归函数，继而有更多的参数，而每个类别的训练样本有限，导致每个类别的回归函数不能够很好的训练；但是本文作者的网络中PCR明显好于SCR，训练样本并没有增多，现在感觉OverFeat这种每类训练样本少的解释合理性有待商榷；此外网络结构不同感觉是两个结果区别的关键，除卷积提取阶段不同外；全连接层的结构也不同OverFeat网络是4096-1024-regression；本文的网络是4096-4096-regression；从对比来看造成这种差距的原因估计是网络结果上的问题；但是这个可以解释为什么本文的结果比OverFeat的结果好，如果用网络结构来解释PCR比SCR好，感觉有些牵强。所以感觉PCR和SCR两种预测bounding   box方法的影响因素，还是有些不明白。“还有一个不同的地方就是在上面的测试中，本文给出了图片真正的分类，然后更具真是的类比，预测bounding box；而不是采用先预测分类，在预测bounding box的方法” 。</span></p>  <br>
+<br><br>
+ 感谢关注 Ithao123精品文库频道，ithao123.cn是专门为互联网人打造的学习交流平台，全面满足互联网人工作与学习需求，更多互联网资讯尽在 IThao123!
+
+            </div>
+
+
+            <br>
+            <div class="realted-artle">
+                <div class="list clr">
+
+                    <script type="text/javascript">
+                        var cpro_id="u2288424";
+                        (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"780",rsi1:"350",pat:"6",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"0",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0",ptbg:"90",piw:"0",pih:"0",ptp:"0"}
+                    </script>
+                    <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+
+
+                </div>
+				
+				<div style="width:780px;text-align:center;margin:0 auto;">
+                    <a href="http://ithao123.100xuexi.com/" target="_blank" rel="nofollow"><img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/20151217104039803.png"></a>
+                </div>
+				
+                </div>
+				
+				<!--
+            <br>
+
+            <div class="jm_CL">
+                <ul>
+                    <li><a rel="nofollow" href="http://www.aikang8.com/content-20-876-1.html" title="魅研社艺术模特丁筱南翘臀拍写真" target="_blank">
+                        <img src="http://doc.wocaiwang.cn/aik/1f/97/f5/1f97f5369d13df6a8f95f717d1ef9637.jpg" alt="魅研社艺术模特丁筱南翘臀拍写真" width="" height="152"></a>
+                        <p><a rel="nofollow" href="http://www.aikang8.com/content-20-876-1.html" title="魅研社艺术模特丁筱南翘臀拍写真" target="_blank">魅研社艺术模特丁筱南翘臀拍写真</a></p>
+                    </li>
+                    <li><a rel="nofollow" href="http://www.aikang8.com/content-59-885-1.html" title="性感女郎大奶诱惑人体私房写真(1/39)" target="_blank">
+				<img src="http://doc.wocaiwang.cn/aik/64/74/9a/64749a9ca1b090a2bb5e46f222273974.jpg" alt="性感女郎大奶诱惑人体私房写真(1/39)" width="" height="152"></a>
+				<p><a rel="nofollow" href="http://www.aikang8.com/content-59-885-1.html" title="性感女郎大奶诱惑人体私房写真(1/39)" target="_blank">性感女郎大奶诱惑人体私房写真(1/39)</a></p>
+			</li>
+                    <li><a rel="nofollow" href="http://www.aikang8.com/content-20-836-1.html" title="尤果性感美女王凌宇艺术影像写真" target="_blank">
+				<img src="http://doc.wocaiwang.cn/aik/ba/4c/d9/ba4cd936bfca4fbf03e34c13d316583e.jpg" alt="尤果性感美女王凌宇艺术影像写真" width="" height="152"></a>
+				<p><a rel="nofollow" href="http://www.aikang8.com/content-20-836-1.html" title="尤果性感美女王凌宇艺术影像写真" target="_blank">尤果性感美女王凌宇艺术影像写真</a></p>
+			</li>
+                    <li><a rel="nofollow" href="http://www.aikang8.com/content-20-874-1.html" title="极品空姐顾欣怡红色制服私房写真" target="_blank">
+                        <img src="http://doc.wocaiwang.cn/aik/2a/53/a4/2a53a4cf095c49c216ca99d7a2d90c95.jpg" alt="极品空姐顾欣怡红色制服私房写真" width="" height="152"></a>
+                        <p><a rel="nofollow" href="http://www.aikang8.com/content-20-874-1.html" title="极品空姐顾欣怡红色制服私房写真" target="_blank">极品空姐顾欣怡红色制服私房写真</a></p>
+                    </li>
+					<li><a rel="nofollow" href="http://www.aikang8.com/content-59-857-1.html" title="翘臀妹子笑笑性感蛋糕浴诱惑写真(1/54)" target="_blank">
+				<img src="http://doc.wocaiwang.cn/aik/ce/12/c3/ce12c3a619866be7fb9cc41af57573cd.jpg" alt="翘臀妹子笑笑性感蛋糕浴诱惑写真(1/54)" width="" height="152"></a>
+				<p><a rel="nofollow" href="http://www.aikang8.com/content-59-857-1.html" title="翘臀妹子笑笑性感蛋糕浴诱惑写真(1/54)" target="_blank">翘臀妹子笑笑性感蛋糕浴诱惑写真(1/54)</a></p>
+			</li>
+
+                </ul>
+
+            </div>
+			-->
+
+
+            <div class="realted-artle">
+                <div class="tit">
+
+            		<span class="keyword">
+                                                                                        关键词：
+
+                                                                                                                                                                                   </span>
+                </div>
+                <div class="list clr" style="float:left;width:445px;">
+                                        <ul>
+                                                <li>
+                            <a href="http://www.ithao123.cn/content-8086567.html" target="_blank" title="深度学习研究理解4：ImageNet Classification with Deep Convolutional Neural Network">深度学习研究理解4：ImageNet Classification with Deep Convolutional Neural Network</a>
+                        </li>
+                                                <li>
+                            <a href="http://www.ithao123.cn/content-4561657.html" target="_blank" title="Caffe 深度学习研究工具">Caffe 深度学习研究工具</a>
+                        </li>
+                                                <li>
+                            <a href="http://www.ithao123.cn/content-7381782.html" target="_blank" title="深度学习预备课：神经网络">深度学习预备课：神经网络</a>
+                        </li>
+                                                <li>
+                            <a href="http://www.ithao123.cn/content-8118743.html" target="_blank" title="深度学习笔记6：Learning color features with Sparse Autoencoders">深度学习笔记6：Learning color features with Sparse Autoencoders</a>
+                        </li>
+                                                <li>
+                            <a href="http://www.ithao123.cn/content-8299475.html" target="_blank" title="斯坦福深度学习课程实践：一(线性回归)">斯坦福深度学习课程实践：一(线性回归)</a>
+                        </li>
+                                                <li>
+                            <a href="http://www.ithao123.cn/content-8359845.html" target="_blank" title="CVPR 2015 之深度学习篇 Part 2 － deep learning在计算机视觉各个子领域的应用">CVPR 2015 之深度学习篇 Part 2 － deep learning在计算机视觉各个子领域的应用</a>
+                        </li>
+                                                <li>
+                            <a href="http://www.ithao123.cn/content-8333362.html" target="_blank" title="Image Super-Resolution Using Deep Convolutional Networks">Image Super-Resolution Using Deep Convolutional Networks</a>
+                        </li>
+                                                <li>
+                            <a href="http://www.ithao123.cn/content-4860991.html" target="_blank" title="deep learning Deep Belief networks for image denoising">deep learning Deep Belief networks for image denoising</a>
+                        </li>
+                                            </ul>
+                    
+                </div>
+                <div class="list clr" style="float:right;width:300px;">
+
+                    <script type="text/javascript">
+                        var cpro_id="u2288425";
+                        (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"300",rsi1:"300",pat:"1",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0",tft:"0",tlt:"0",ptbg:"90",piw:"0",pih:"0",ptp:"0"}
+                    </script>
+                    <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+
+
+
+
+                </div>
+
+
+
+
+            </div>
+
+            <br>
+            <div style="clear: both;">
+            <script type="text/javascript">
+    /*在线_ithao123_内容页相关文章下方图片广告_v2_788*100 创建于 2015-08-31*/
+    var cpro_id = "u2288428";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>            </div>
+
+
+
+
+            <!-- pageRelate END -->
+            <!-- 评论 -->
+            <div class="article-coment">
+
+
+
+
+    <div class="lp-comment useComJs" id="lph-comment">
+        <input id="lp_item_id" type="hidden" name="item_id" value="46925">
+        <input id="lp_item_type" type="hidden" name="type" value="2">
+
+        <div class="h2 clr">
+            <h2>文章点评：</h2>
+            <!-- <strong class="h2-tip">
+                （您需要<a class="c-log" href="javascript:openPop('#lp-login-pop');">登录</a>后才能评论 <a href="http://home.ithao123.cn/main/register" class="c-reg">没有账号</a> ？）</strong>
+            -->
+        </div>
+                <form action="http://www.ithao123.cn/index.php?m=comment&amp;c=index&amp;a=post&amp;commentid=content_310-8110304-1" method="post">
+        <div class="submit clr" id="commentForm">
+
+            <div class="text">
+
+
+
+                    <input type="hidden" name="title" value="5rex5bqm5a2m5Lmg56CU56m255CG6Kej77yaVmVyeSBEZWVwIENvbnZvbHV0aW9uYWwgTmV0d29ya3MgZm9yIExhcmdlLVNjYWxlIEltYWdlIFJlY29nbml0aW9u">
+                                       <input type="hidden" name="url" value="aHR0cDovL3d3dy5pdGhhbzEyMy5jbi9jb250ZW50LTgxMTAzMDQuaHRtbA%3D%3D">
+                <input type="hidden" name="module" value="content_310">
+                <input type="hidden" name="data_id" value="8110304">
+                    <input type="hidden" name="direction" value="1">
+                    <a name="comment"></a>
+                    <textarea rows="8" cols="80" name="content" id="saytext0"></textarea><br>
+
+
+            </div>
+            <div class="sub clr publishtosina">
+
+                <button type="submit" title="提交">提交</button>
+            </div>
+        </div>
+        </form>
+
+                        
+    </div>
+</div>
+            <!-- 评论 -->
+
+            <div class="idx-selLead clr">
+                <div class="tip">
+                    <h4><span>精选专题</span></h4>
+                </div>
+                <div class="list">
+
+            
+    <div class="items pr15 mr13 pb15 items-borb clr">
+    <div class="pic">
+        <a href="http://11.zhuanti.ithao123.cn/" target="_blank">
+            <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/20150607064706838.jpg" alt="Laravel入门教程" width="168" height="112">
+        </a>
+    </div>
+    <div class="txt">
+        <div class="tit">
+            <a href="http://11.zhuanti.ithao123.cn/" target="_blank">Laravel入门教程</a>
+        </div>
+        <p>Laravel是一套简洁、优雅的PHP Web开发框架(PHP Web Framework)。它可以让你从面条一样杂乱的代码中解脱出来；它可以帮你构建一个完美的网络APP，而且每行代码都可以简洁、富于表达力。</p>
+    </div>
+</div>
+<div class="items-line"></div>
+
+    <div class="items ml14 pl15 pb15 clr  items-borb">
+    <div class="pic">
+        <a href="http://10.zhuanti.ithao123.cn/" target="_blank">
+            <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/20150606081115788.jpg" alt="hadoop学习及应用" width="168" height="112">
+        </a>
+    </div>
+    <div class="txt">
+        <div class="tit">
+            <a href="http://10.zhuanti.ithao123.cn/" target="_blank">hadoop学习及应用</a>
+        </div>
+        <p>Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
+用户可以在不了解分布式底层细节的情况下，开发分布式程序。充分利用集群的威力进行高速运算和存储。
+Hadoop实现了一个分布式文件系统（Hadoop Distributed File System），简称HDFS。HDFS有高容错性的特点，并且设计用来部署在低廉的（low-cost）硬件上；而且它提供高吞吐量（high throughput）来访问应用程序的数据，适合那些有着超大数据集（large data set）的应用程序。HDFS放宽了（relax）POSIX的要求，可以以流的形式访问（streaming access）文件系统中的数据。
+Hadoop的框架最核心的设计就是：HDFS和MapReduce。HDFS为海量的数据提供了存储，则MapReduce为海量的数据提供了计算。</p>
+    </div>
+</div>
+
+    <div class="items pr15 mr13 clr">
+    <div class="pic">
+        <a href="http://9.zhuanti.ithao123.cn/" target="_blank">
+            <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/20150605112544230.jpg" alt="互联网产品设计" width="168" height="112">
+        </a>
+    </div>
+    <div class="txt">
+        <div class="tit">
+            <a href="http://9.zhuanti.ithao123.cn/" target="_blank">互联网产品设计</a>
+        </div>
+        <p>产品设计是互联网产品经理的核心能力，一个好的产品经理一定在产品设计方面有扎实的功底，本专题将从互联网产品设计的几个方面谈谈产品设计</p>
+    </div>
+</div>
+<div class="items-line"></div>
+
+    <div class="items ml14 pl15 clr">
+    <div class="pic">
+        <a href="http://7.zhuanti.ithao123.cn/" target="_blank">
+            <img src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/20150603100649512.png" alt="产品经理职责" width="168" height="112">
+        </a>
+    </div>
+    <div class="txt">
+        <div class="tit">
+            <a href="http://7.zhuanti.ithao123.cn/" target="_blank">产品经理职责</a>
+        </div>
+        <p>随着国内互联网的发展，产品经理岗位需求大幅增加，在国内，从事产品工作的大部分岗位为产品经理，其实现实中，很多从事产品工作的岗位是不能称为产品经理，主要原因是对产品经理的职责不明确，那产品经理的职责有哪些，本专题将详细介绍产品经理的主要职责</p>
+    </div>
+</div>
+
+
+</div>            </div>
+
+
+        </div>
+        <!-- lph-left -->
+        <!-- 只有文章内页才去引用 -->
+
+        <!-- 发送私信 -->
+
+        <!-- # 发送私信-->
+        <div class="lph-right">
+
+    <!-- 临时广告begin   -->
+    <div class="right-box">
+        <script type="text/javascript">
+    /*在线_IT_内容页_右侧最新专题上方广告_v2_300*250 创建于 2015-12-21*/
+    var cpro_id = "u2458794";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+    </div>
+	
+
+	
+
+    <!-- 右侧专题 -->
+    <div class="kuaixun right-box">
+    <div class="right-box-title">
+        <h3>最新专题</h3>
+    </div>
+    <ul class="kx-ul">
+
+                                <li class="clr hov">
+            <a href="http://199.zhuanti.ithao123.cn/" target="_blank">
+                <div class="time"><span class="r">28</span>/<span class="y">12月</span> </div>
+                <div class="title">android游戏开发教程</div>
+            </a>
+        </li>
+                        <li class="clr">
+            <a href="http://198.zhuanti.ithao123.cn/" target="_blank">
+                <div class="time"><span class="r">28</span>/<span class="y">12月</span> </div>
+                <div class="title">webos手机</div>
+            </a>
+        </li>
+                        <li class="clr">
+            <a href="http://197.zhuanti.ithao123.cn/" target="_blank">
+                <div class="time"><span class="r">28</span>/<span class="y">12月</span> </div>
+                <div class="title">重庆ios培训</div>
+            </a>
+        </li>
+                        <li class="clr">
+            <a href="http://196.zhuanti.ithao123.cn/" target="_blank">
+                <div class="time"><span class="r">28</span>/<span class="y">12月</span> </div>
+                <div class="title">ios开发教程</div>
+            </a>
+        </li>
+                        <li class="clr">
+            <a href="http://195.zhuanti.ithao123.cn/" target="_blank">
+                <div class="time"><span class="r">28</span>/<span class="y">12月</span> </div>
+                <div class="title">android应用开发实战</div>
+            </a>
+        </li>
+                        
+
+    </ul>
+</div>
+    <div class="right-box">
+        <script type="text/javascript">
+    var cpro_id="u2354052";
+    (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"300",rsi1:"300",pat:"17",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"",titFS:"14",rss2:"#000000",titSU:"0"}
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+
+    </div>
+
+    <!-- 右侧周刊 -->
+    <div class="kuaixun right-box">
+    <div class="right-box-title">
+        <h3>IThao123周刊</h3>
+    </div>
+    <ul class="kx-ul">
+
+                                <li class="clr hov">
+            <a href="http://200.zhoukan.ithao123.cn/" target="_blank">
+                <div class="time"><span class="r">14</span>/<span class="y">09月</span> </div>
+                <div class="title"> IThao123互联网周刊，互联网资讯不错...</div>
+            </a>
+        </li>
+                        <li class="clr">
+            <a href="http://182.zhoukan.ithao123.cn/" target="_blank">
+                <div class="time"><span class="r">08</span>/<span class="y">09月</span> </div>
+                <div class="title"> IThao123互联网周刊，互联网资讯不错...</div>
+            </a>
+        </li>
+                        <li class="clr">
+            <a href="http://171.zhoukan.ithao123.cn/" target="_blank">
+                <div class="time"><span class="r">02</span>/<span class="y">09月</span> </div>
+                <div class="title">IThao123互联网周刊，互联网资讯不错过(...</div>
+            </a>
+        </li>
+                        <li class="clr">
+            <a href="http://126.zhoukan.ithao123.cn/" target="_blank">
+                <div class="time"><span class="r">26</span>/<span class="y">08月</span> </div>
+                <div class="title"> IThao123互联网周刊，互联网资讯不错...</div>
+            </a>
+        </li>
+                        <li class="clr">
+            <a href="http://113.zhoukan.ithao123.cn/" target="_blank">
+                <div class="time"><span class="r">17</span>/<span class="y">08月</span> </div>
+                <div class="title">IThao123互联网周刊，互联网资讯不错过(...</div>
+            </a>
+        </li>
+                        
+    </ul>
+</div>
+    <!-- 临时广告begin   -->
+
+
+    <div class="right-box">
+        <script type="text/javascript">
+            /*ithao123_内容页右侧猜您关注上方广告_v2_300*250 创建于 2015-08-13*/
+            var cpro_id = "u2288422";
+        </script>
+        <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+    </div>
+
+    <!-- 临时广告end -->
+
+    <!-- 猜您关注 -->
+    <div class="kuaixun right-box">
+    <div class="right-box-title">
+        <h3>猜您关注</h3>
+    </div>
+    <ul class="kx-ul" style="height:415px;" id="guess">
+
+                                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726719.html" target="_blank">
+                关于UnityStartCoroutine(协...            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726714.html" target="_blank">
+                64位MicrosoftOfficeWord加载EndnoteX7            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726711.html" target="_blank">
+                大数据收割机是什么? [什么...            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726710.html" target="_blank">
+                宅男必读：懒人想看美女，肿...            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726709.html" target="_blank">
+                mac开机静音            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726706.html" target="_blank">
+                Misc Basic Exercise            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726704.html" target="_blank">
+                最新版 CocoaPods 的安装流程            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726702.html" target="_blank">
+                K3BOS插件开发入门教程            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726700.html" target="_blank">
+                Spark1.5.1学习笔记汇总            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726698.html" target="_blank">
+                葡萄城报表-核心代码展示            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726696.html" target="_blank">
+                [置顶]
+        如何...            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726694.html" target="_blank">
+                max_connect_error的说明            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726687.html" target="_blank">
+                项目中防止表单重复提交            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726685.html" target="_blank">
+                收藏thoughtworkers            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726684.html" target="_blank">
+                ext3 转 ext4 操作            </a>
+        </li>
+                <li class="clr">
+            <a href="http://www.ithao123.cn/content-10726678.html" target="_blank">
+                OAuth授权协议(第三方不用密...            </a>
+        </li>
+                
+
+    </ul>
+</div>
+    <div class="right-box" style="border: 1px solid rgb(204, 204, 204); padding-top: 10px; z-index: 1000; position: relative; top: 60px; background: rgb(255, 255, 255);" id="guessdownad">
+        <script type="text/javascript">
+            var cpro_id="u2307775";
+            (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"298",rsi1:"300",pat:"6",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"0",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0",ptbg:"90",piw:"120",pih:"70",ptp:"0"}
+        </script>
+        <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+
+
+    </div>
+    <script type="text/javascript">
+        $(function() {
+
+            $(window).scroll(function () {
+                var scroH = $(window).scrollTop();
+                //console.log();
+                //var hh = scroH - $('#guessdownad').height();
+                var articlelefth = $('.article-left').height();
+
+                if(parseInt(articlelefth) < 2000){
+                    return false;
+                }
+
+                var oset = $('#guess').offset();
+                var hh = oset.top + 400;
+                if (scroH >= hh) {
+                    $('#guessdownad').css({'position': 'fixed', 'top': '60px'});
+                } else {
+                    $('#guessdownad').css({'position': 'relative', 'top': 'none'});
+                }
+            });
+        });
+    </script>
+
+
+
+</div>        <!-- lph-right -->
+    </div>
+</div>
+<!-- index-main END -->
+
+<!-- js END -->
+<div class="yp-footer">
+    <div class="inner">
+        <div class="yp-footer-top clr">
+
+            <div class="left">
+                <!-- JiaThis Button BEGIN -->
+                <div class="jiathis_style_32x32">
+                    <a class="jiathis_button_qzone" title="分享到QQ空间"><span class="jiathis_txt jtico jtico_qzone"></span></a>
+                    <a class="jiathis_button_tsina" title="分享到新浪微博"><span class="jiathis_txt jtico jtico_tsina"></span></a>
+                    <a class="jiathis_button_tqq" title="分享到腾讯微博"><span class="jiathis_txt jtico jtico_tqq"></span></a>
+                    <a class="jiathis_button_weixin" title="分享到微信"><span class="jiathis_txt jtico jtico_weixin"></span></a>
+                    <a class="jiathis_button_renren" title="分享到人人网"><span class="jiathis_txt jtico jtico_renren"></span></a>
+                    <a href="http://www.jiathis.com/share?uid=1951562" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                    <a class="jiathis_counter_style"><span class="jiathis_button_expanded jiathis_counter jiathis_bubble_style" id="jiathis_counter_131" title="累计分享0次">0</span></a>
+                </div>
+                <script type="text/javascript">
+                    var jiathis_config = {data_track_clickback:'true'};
+                </script>
+                <script type="text/javascript" src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/jia.js" charset="utf-8"></script><script type="text/javascript" src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/plugin.client.js" charset="utf-8"></script>
+                <!-- JiaThis Button END -->
+            </div>
+
+            <div class="right clr">
+                <div class="links">
+                    <a rel="nofollow" href="http://www.ithao123.cn/about.html">关于我们</a>|
+                    <a rel="nofollow" href="http://www.ithao123.cn/mianze.html">免责声明</a>|
+                    <a rel="nofollow" href="http://www.ithao123.cn/guanggao.html">广告服务</a>|
+                    <a rel="nofollow" href="http://www.ithao123.cn/lianxi.html">联系我们</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="yp-footer-btm">
+
+                    <div class="hotwords">
+    <h3 class="site_map_title">热门搜索</h3>
+    <ul>
+                <li><a href="http://www.ithao123.cn/search/key_python%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%BA%93/">python 深度学习库</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_python%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">python 深度学习</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20python/">深度学习 python</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/">深度学习实战</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF/">深度学习技术</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20caffe/">深度学习 caffe</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_caffe%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">caffe 深度学习</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%20delphi/">深度学习算法 delphi</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_php%E5%AD%A6%E4%B9%A0%E7%A0%94%E7%A9%B6%E7%BE%A4/">php学习研究群</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0postgresql/">深度学习postgresql</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_ajax%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">ajax的深度学习</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_php%20%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6/">php 深度研究</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_%E5%AD%A6%E4%B9%A0%E7%90%86%E8%A7%A3/">学习理解</a></li>
+                <li><a href="http://www.ithao123.cn/search/key_%E6%B7%B1%E5%BA%A6%E7%90%86%E8%A7%A3/">深度理解</a></li>
+        
+
+    </ul>
+</div>
+
+<br><br>
+
+                    
+        </div>
+    </div>
+    <div class="yp-copyright">
+
+    <div class="inner">
+        <p>
+            Copyright © 2011-2015 www.ithao123.cn IThao123.cn - IT行业第一站 All Rights Reserved 琼ICP备14001398号-3
+        </p>
+    </div>
+</div>
+
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?8c1ae9ead8d05148084aa256a8a8f7eb";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+</div>
+
+<div class="gotoBar" id="lph-footer-gotoBar">
+
+    <a class="top" rel="nofollow" href="javascript:;" data-goto="0" data-start="100" title="返回顶部" style="display: none;"></a>
+    <!--
+    <a class="sugg" href="#" target="_self"><span>意见<br>反馈</span></a>
+    -->
+</div>
+<!--
+<script type="text/javascript">
+    /*在线_IT_内容页_视窗广告_v2_250*200 创建于 2015-09-24*/
+var cpro_id = "u2326271";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/f.js" type="text/javascript"></script>
+-->
+
+
+<!--
+<script type="text/javascript">
+    /*为了保证用户体验及收益，图片大小不得小于：200*180*/
+    /*在线_ithao123_内容页_图片+广告_v2 创建于 2015-11-13*/
+var cpro_id = "u2399328";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/i.js" type="text/javascript"></script>
+-->
+
+<!--
+<script type="text/javascript">
+    /*在线_IT_内容页_对联广告_v2 创建于 2015-11-30*/
+var cpro_id = "u2425466";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/f.js" type="text/javascript"></script>
+
+-->
+
+<!--对联-->
+<script src="http://ji.dazhantai.com/cpv/i.php?z=5961"></script>
+
+
+<!--右下角cpv-->
+<script src="./深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition_精品文库_IThao123 - IT行业第一站_files/s.php"></script>
+
+
+
+<!-- 遮罩层 -->
+
+</body></html>

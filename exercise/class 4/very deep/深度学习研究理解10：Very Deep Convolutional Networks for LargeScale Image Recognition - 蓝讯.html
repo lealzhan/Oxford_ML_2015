@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)http://www.lxway.com/505298251.htm -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+    <title>深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition -  蓝讯</title>
+    <meta name="keywords" content="Karen Simonyan, 深度学习的softmax层和全连接层">
+    <meta name="description" content="深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition 本文是牛津大学 visual geometry group(VGG)Karen Simonyan 和Andrew Zisserman 于14年撰写的论文,主要探讨了深度对于网络的重要性:并建立了一个19层的深度网络获得了很好的结果:在ILSVRC上定位第一,分类第二. 一:摘要 -- 从Alex-net发展而来的网络主要修改一下两个方面: 1,在第一个卷基层层使用更小的filter尺寸和间隔: 2,在整个图片和multi-scale上训练和测试图片. 二:网络配置 2.1配置 2.1.1 小的F">
+ 
+    <link href="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/style.css" rel="stylesheet">
+  <link href="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/font-awesome.min.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://www.lxway.com/feed/">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if IE 7]>
+  <link rel="stylesheet" href="/template/cn/css/font-awesome-ie7.min.css">
+  <![endif]-->
+  <!--[if lt IE 9]>
+  <script src="/template/cn/js/html5shiv.js"></script>
+  <script src="/template/cn/js/respond.min.js"></script>
+  <![endif]-->
+<style type="text/css"></style><script src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/share.js"></script><link rel="stylesheet" href="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/share_style1_16.css"><link rel="stylesheet" href="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/share_popup.css"><link rel="stylesheet" href="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/select_share.css"><link rel="stylesheet" href="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/imgshare.css"><link rel="stylesheet" href="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/share_style0_16.css"></head>
+<body>
+<div class="wrapper-fulid background">
+    <div id="nav">
+        <div class="col-lg-2"></div>  
+        <div class="col-lg-5 col-md-9">
+    <ul class="nav_list">
+      <li><a title="首页" class="nav-item" href="http://www.lxway.com/category/blog/">首页</a></li>
+      <li><a title="程序" class="nav-item" href="http://www.lxway.com/search/%E7%A8%8B%E5%BA%8F/">程序</a></li>
+      <li><a title="代码" class="nav-item" href="http://www.lxway.com/search/%E4%BB%A3%E7%A0%81/">代码</a></li>      
+      <li><a title="框架" class="nav-item" href="http://www.lxway.com/search/%E6%A1%86%E6%9E%B6/">框架</a></li>
+      <li><a title="资源" class="nav-item" href="http://www.lxway.com/search/%E8%B5%84%E6%BA%90/">资源</a></li>         
+    </ul>
+        </div>    
+        <div class="col-lg-3 col-md-3">    
+            <div class="tb-nav visible-lg-block">
+                <div class="tb-item">
+                    <div style="background: none repeat scroll 0% 0% transparent;" class="sc">
+                        <form method="post" id="searchform" action="http://www.lxway.com/search/">
+                            <input id="keyword" class="focus" size="24" name="keyword" accesskey="s" autosave="baidu" results="8" autocomplete="off">
+                            <button type="submit" name="sa" style="background: url(&#39;/template/cn/css/btn.png&#39;) no-repeat scroll left 0px rgb(241, 241, 241);">Search</button>
+                        </form>          
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="col-lg-2"></div>
+    </div>
+</div><div class="container">
+    <div class="row">
+        <div class="col-md-8">
+
+           <h1 class="mtitle">深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition</h1>
+<div class="row">
+    <div class="col-md-6 col-sm-12 col-xs-12">
+<script type="text/javascript">
+    /*Lxway.com 文章页 上左 336*280*/
+    var cpro_id = "u2328357";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+    
+        
+
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12">
+
+<script type="text/javascript">
+    /*Lxway.com 文章页 上右 336*280*/
+    var cpro_id = "u2328358";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+
+
+    </div>
+</div>           
+<!--分享代码开始-->
+<div class="bdsharebuttonbox bdshare-button-style1-16" data-bd-bind="1451237241456">
+<a href="http://www.lxway.com/505298251.htm#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+<a href="http://www.lxway.com/505298251.htm#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+<a href="http://www.lxway.com/505298251.htm#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+<a href="http://www.lxway.com/505298251.htm#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+<a href="http://www.lxway.com/505298251.htm#" class="bds_more" data-cmd="more"></a>
+</div>
+<!--分享代码结束-->
+
+    	<section>
+		<article class="clearfix">
+		<div class="csdn">
+
+<p align="left"><span style="">本文是牛津大学 visual geometry group（VGG）Karen Simonyan 和Andrew Zisserman 于14年撰写的论文，主要探讨了深度对于网络的重要性；并建立了一个19层的深度网络获得了很好的结果；在ILSVRC上定位第一，分类第二。</span></p>
+<p align="left"><span style="">一：摘要</span></p>
+<p align="left"><span style="">……</span></p>
+<p align="left"><span style="">从Alex-net发展而来的网络主要修改一下两个方面：</span></p>
+<p align="left"><span style="">1，在第一个卷基层层使用更小的filter尺寸和间隔；</span></p>
+<p align="left"><span style="">2，在整个图片和multi-scale上训练和测试图片。</span></p>
+<p align="left"><span style="">二：网络配置</span></p>
+<p align="left"><span style=""><strong>2.1配置</strong></span></p>
+<p align="left"><span style="">2.1.1 小的Filter尺寸为3*3</span></p>
+<p align="left"><span style="">卷积的间隔s=1；3*3的卷基层有1个像素的填充。</span></p>
+<p align="left"><span style="">1：3*3是最小的能够捕获上下左右和中心概念的尺寸。</span></p>
+<p align="left"><span style="">2：两个3*3的卷基层的有限感受野是5*5；三个3*3的感受野是7*7，可以替代大的filter尺寸</span></p>
+<p align="left"><span style="">3：多个3*3的卷基层比一个大尺寸filter卷基层有更多的非线性，使得判决函数更加具有判决性。</span></p>
+<p align="left"><span style="">4：多个3*3的卷积层比一个大尺寸的filter有更少的参数，假设卷基层的输入和输出的特征图大小相同为C，那么三个3*3的卷积层参数个数3*（3*3*C*C）=27CC；一个7*7的卷积层参数为49CC；所以可以把三个3*3的filter看成是一个7*7filter的分解（中间层有非线性的分解）。</span></p>
+<p align="left"><span style="">2.1.2&nbsp;1*1 filter:</span></p>
+<p align="left"><span style="">作用是在不影响输入输出维数的情况下，对输入线进行线性形变，然后通过Relu进行非线性处理，增加网络的非线性表达能力。</span></p>
+<p align="left"><span style="">Pooling：2*2，间隔s=2；</span></p>
+<p align="left"><span style=""><strong>2.2 结构</strong></span></p>
+<p align="center"><a href="http://image.lxway.com/upload/2/02/2026ef8aac13496ffcf0380b70ef08b7.png" class="lightbox"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/2026ef8aac13496ffcf0380b70ef08b7_thumb.png" alt="深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition" title="深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition" data-bd-imgshare-binded="1"></a><br> </p>
+<p align="left"><span style="">和之前流行的三阶段网络不通的是，本文是有5个max-pooling层，所以是5阶段卷积特征提取。每层的卷积个数从首阶段的64个开始，每个阶段增长一倍，直到达到最高的512个，然后保持。</span></p>
+<p align="left"><span style="">基本结构A：</span></p>
+<p align="left"><span style="">Input（224,224,3）→64F（3,3,3,1）→max-p(2,2)→128F（3,3,64,1）→max-p(2,2) →256F（3,3,128,1）→256F（3,3,256,1）→max-p(2,2)→512F（3,3,256,1）→512F（3,3,512,1）→max-p(2,2)→512F（3,3,256,1）→512F（3,3,512,1）→max-p(2,2)→4096fc→4096fc→1000softmax</span></p>
+<p align="left"><span style="">8个卷基层，3个全连接层，共计11层；作者只说明了使用3*3filter的原因，至于层数，阶段数，特征数为什么这么设计，作者并没有说明。</span></p>
+<p align="left"><span style="">参数个数：<span style="">网络E和OverFeat模型参数差不多</span></span></p>
+<p align="left"><span style=""><a href="http://image.lxway.com/upload/8/19/819f46cfc96d9003c011e12644394b99.png" class="lightbox"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/819f46cfc96d9003c011e12644394b99_thumb.png" alt="深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition" title="深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition" data-bd-imgshare-binded="1"></a><br><br>
+</span></p>
+<p align="left"><span style="">B：在A的stage2 和stage3分别增加一个3*3的卷基层，10个卷积层，总计13层</span></p>
+<p align="left"><span style="">C：在B的基础上，stage3，stage4，stage5分别增加1*1的卷积层，13个卷基层，总计16层</span></p>
+<p align="left"><span style="">D：在C的基础上，stage3，stage4，stage5分别增加3*3的卷积层，13个卷基层，总计16层</span></p>
+<p align="left"><span style="">E：在D的基础上，stage3，stage4，stage5分别增加3*3的卷积层，16个卷基层，总计19层</span></p>
+<p align="left"><span style="">&nbsp;</span><span style="">三，分类框架</span></p>
+<p align="left"><span style=""><strong>3.1训练参数设置</strong></span></p>
+<p align="left"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Minibatch=256，其它的都一样。</span></p>
+<p align="left"><span style="">作者发现，尽管VGG比Alex-net有更多的参数，更深的层次；但是VGG需要很少的迭代次数就开始收敛。这是因为</span></p>
+<p align="left"><span style="">1，深度和小的filter尺寸起到了隐式的规则化的作用</span></p>
+<p align="left"><span style="">2，一些层的pre-initialisation</span></p>
+<p align="left"><span style="">pre-initialisation：网络A的权值W~（0,0.01）的高斯分布，bias为0；由于存在大量的ReLU函数，不好的权值初始值对于网络训练影响较大。为了绕开这个问题，作者现在通过随机的方式训练最浅的网络A；然后在训练其他网络时，把A的前4个卷基层（感觉是每个阶段的以第一卷积层）和最后全连接层的权值当做其他网络的初始值，未赋值的中间层通过随机初始化。</span></p>
+<p align="left"><span style="">Multi-scale 训练</span></p>
+<p align="left"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 把原始 image缩放到最小边S&gt;224；然后在full image上提取224*224片段，进行训练。</span></p>
+<p align="left"><span style="">方法1：在S=256，和S=384上训练两个模型，然后求平均</span></p>
+<p align="left"><span style="">方法2：类似OverFeat测试时使用的方法，在[Smin,Smax]scale上，随机选取一个scale，然后提取224*224的图片，训练一个网络。这种方法类似图片尺寸上的数据增益。</span></p>
+<p align="left"><span style=""><strong>3.2 测试</strong></span></p>
+<p align="left"><span style="">测试阶段的方法和OverFeat测试方法相同，首先选定一个scale：Q，然后在这个图片上应用卷积网络，在最后一个卷积阶段产生unpooled FM，然后利用sliding window方法，每个pooling window产生一个分类输出，然后融合各个pooling window的结果，得到最终分类。这样比10-view更加高效，只需计算一次卷积过程。</span></p>
+<p align="left"><span style=""><strong>3.3 部署细节</strong></span></p>
+<p align="left"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 利用C++ Caffe toolbox，在4个Titan Gpu上并行计算，比单独GPU快3.75倍，每个网络差不多2-3周。</span></p>
+<p align="left"><span style="">四，分类实验</span></p>
+<p align="left"><span style=""><strong>4.1 测试阶段single-scale对比</strong></span></p>
+<p align="left"><a href="http://image.lxway.com/upload/6/05/605033208f3d303ed1f77bec31c1cccf.png" class="lightbox"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/605033208f3d303ed1f77bec31c1cccf_thumb.png" alt="深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition" title="深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition" data-bd-imgshare-binded="1"></a><br> </p>
+<p align="left"><span style="">A vs A-LRN：A-LRN结果没有A好，说明LRN作用不大。</span></p>
+<p align="left"><span style="">A vs B,C,D,E：越深越好</span></p>
+<p align="left"><span style="">A vs C：增加1*1filter，即增加额外的非线性确实提升效果</span></p>
+<p align="left"><span style="">C vs D：3*3的filter比1*1filter要好，使用较大的filter能够捕捉更大的空间特征。</span></p>
+<p align="left"><span style="">训练方法：在scale区间[256;512]通过scale增益来训练网络，比在固定的两个S=256和S=512，结果明显提升。Multi-scale训练确实很有用，因为ZF论文中，卷积网络对于缩放有一定的不变性，通过multi-scale训练可以增加这种不变性的能力。</span></p>
+<p align="left"><span style=""><strong>4.2 Multi-scale训练</strong></span></p>
+<p align="left"><span style="">方法1：single-scale训练 S，multi-scale测试 {S-32,S,S+32}</span></p>
+<p align="left"><span style="">方法2：multi-scale训练[Smin;Smax]，multi-scale测试{Smin，middle，Smax}</span></p>
+<p align="left"><span style="">结果：此处结果为B’</span></p>
+<p align="left"><a href="http://image.lxway.com/upload/c/09/c09186309f38eeda2a65bf74cf6d4b1f.png" class="lightbox"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/c09186309f38eeda2a65bf74cf6d4b1f_thumb.png" alt="深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition" title="深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition" data-bd-imgshare-binded="1"></a><br><br>
+</p>
+<p align="left"><span style="">1 B vs B’, C vs C’,……:single-scale训练，利用multi-scale测试，有0.2%的top-5提升。</span></p>
+<p align="left"><span style="">2 B-256 vs B-384 ……：single-scale在256和348上训练，无论用什么测试方法，结果基本上差不多。说明网络在单个scale上提取能力有限。</span></p>
+<p align="left"><span style="">3 multi-scale训练，multi-scale测试，对于网络提升明显，D’和E’的top-5分类达到了7.5%。</span></p>
+<p align="left"><span style=""><strong>4.3 模型融合</strong></span></p>
+<p align="left"><span style="">通过结果求平均，融合上面不同网络的结果。</span></p>
+<p align="left"><a href="http://image.lxway.com/upload/2/d9/2d9b3329e5df4ea4986426e3121928f7.png" class="lightbox"><img src="http://image.lxway.com/upload/2/d9/2d9b3329e5df4ea4986426e3121928f7_thumb.png" alt="深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition" title="深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition" data-bd-imgshare-binded="1"></a><br><br>
+</p>
+<p align="left"><span style="">模型融合结果如上图，比较有意思的是，模型D和E两个顶尖模型融合的结果比融合7个模型的结果还要好。这个比较有意思，模型融合个数多，反而没有两个网络的好。这个是为什么？没有想明白。</span></p>
+<p align="left"><span style=""><strong>4.4和其他网络比较</strong></span></p>
+<p align="left"><span style="">本文的结果和博文9中的结果有一些差距，感觉可能是训练平台和方法的原因，不同的训练平台和方法对于结果也有影响。</span></p>
+<p align="left"><span style=""><br>
+</span></p>
+<p align="left"><span style="">五，定位</span></p>
+<p align="left"><span style=""><strong>5.1 定位网络</strong></span></p>
+<p align="left"><span style="">和OverFeat的方法类似，使用模型D（参数最少，表现最好）通过回归函数来替换分类器，两种分类方法：SCR(single-classregression)，用一个回归函数来学习预测所有类别的bounding box；PCR（per-class regression）每个类别有自己单独的一个回归函数。</span></p>
+<p align="left"><span style="">训练：分别在S=256和S=384上训练两个模型，网络反馈学习时，探究了两种情况1，fine tuning整个网络；2，只调整全连接层。</span></p>
+<p align="left"><span style="">测试：</span></p>
+<p align="left"><span style="">第一种测试框架：定位网络只应用在图像的裁剪中心，用于比较不同的网络修改下性能。</span></p>
+<p align="center"><br>
+</p>
+<p align="left"><span style="">1，发现fine-tuning整个网络的定位性能，比值调整全连接层权值的定位结果要好。</span></p>
+<p align="left"><span style="">2，PCR比SCR结果好，这个和OverFeat的结果相反。</span></p>
+<p align="left"><span style="">所以最好的定位方法是采用PCR，fine-tuning整个网络。</span></p>
+<p align="left"><span style="">第二种测试框架：利用OverFeat的贪婪融合过程（不使用offset pooling），在整个图像上密集应用定位网络；首先根据softmax分类结果给定bounding box的置信得分，然后融合空间相似的bounding box，最后选取最大置信得分的bounding box。</span></p>
+<p align="left"><span style="">在不同scale下，定位结果。</span></p>
+<p align="left"></p>
+<p align="left"><span style="">1，适当的scale对于定位结果有影响S=384好于S=256。</span></p>
+<p align="left"><span style="">2，multi-scale比single-scale好。</span></p>
+<p align="left"><span style="">3，multi-model fusion会更好。</span></p>
+<p align="left"><span style="">和其它state-of-the-art方法比较：</span></p>
+<p align="left"></p>
+<p align="left"><span style="">在使用较少的scale下，在不使用offset pooling情况下，本文的结果比OverFeat提高很多；曹成这种提高的原因主要在于网络结构上的不同，好网络，好分类，好定位，估计还有好检测。</span></p>
+<p align="left"><span style="">六，结论</span></p>
+<p align="left"><span style="">深度是获得好结果的关键。</span></p>
+<p align="left"><span style=""><strong>一些理解和困惑</strong></span></p>
+<p align="left"><span style="">感觉本文在网络探讨阶段和博文9中探索最优网络比较类似；都是首先提出一个结果不错的基础网络A，然后在网络A上进行一些列的修改，一步一步地提高网络性能，进而探索好的网络设计应该是什么样的；博文9平衡网络各个因素探讨的方式比本文比计较复杂度情况下增加深度，更加精细。而且两篇文章的关于深度的结论相同，深度可以提升结果，但是深度会饱和。</span></p>
+<p align="left"><span style="">这里最大的疑问就是他们的网络A是怎么提来的。</span></p>
+<p align="left"><span style="">博文9中的A结构： </span></p>
+<p align="left"><span style=""><span>Input</span><span>（224,224,3</span>）→<span>64</span><span>F(7,7,3,</span><span>s=2</span><span>)
+ →max-p(3,3,</span><span>3</span><span>)→</span><span>128</span><span>F(5,5,64) →max-p</span><span>(2,2,2</span><span>)
+ →</span><span>256</span><span>F(3,3,128)→</span><span>256</span><span>F(3,3,256)→256F(3,3,256)</span>→<span>spp</span><span>(6*6,3*3,2*2,1*1)→4096fc</span>→4096fc→softmax</span></p>
+<p align="left"><span style=""><span>感觉博文9</span>的结构借鉴了Alex-net，ZF-net和本文的VGG，例如这种三段式结构是从瘦身版的Alex-net和ZF-net中来的，第一个卷积层有64个filter而不是96个，感觉是借鉴了本文第一卷积层的结构；还有就是可能依据本文或OverFeat中剔除了LRN。</span></p>
+<p align="left"><span style=""><span>但是本文的结构就找不到关系了， 5</span>阶段，filter的个数尺寸，网络结构等64-128-256-512-512；使用3*3小filter作者已经解释了原因，但是这个关键的网络结构作者并没有给出具体的设计依据，而是直接给出了结果；感觉一个是凭借经验，再有就是凭借实验；结合博文9中的观点，感觉VGG网络还可以利用其中层析替换思想来提高分类结果。</span></p>
+<p align="left"><span style="">里一个困惑，就是“PCR比SCR结果好，这个和OverFeat的结果相反”；OverFeat中在三scale下 SCR-vs-PCR为31.3-vs-44.1;SCR要明显好于PCR，OverFeat作者的解释是PCR顶层有更多的回归函数，继而有更多的参数，而每个类别的训练样本有限，导致每个类别的回归函数不能够很好的训练；但是本文作者的网络中PCR明显好于SCR，训练样本并没有增多，现在感觉OverFeat这种每类训练样本少的解释合理性有待商榷；此外网络结构不同感觉是两个结果区别的关键，除卷积提取阶段不同外；全连接层的结构也不同OverFeat网络是4096-1024-regression；本文的网络是4096-4096-regression；从对比来看造成这种差距的原因估计是网络结果上的问题；但是这个可以解释为什么本文的结果比OverFeat的结果好，如果用网络结构来解释PCR比SCR好，感觉有些牵强。所以感觉PCR和SCR两种预测bounding
+ box方法的影响因素，还是有些不明白。“还有一个不同的地方就是在上面的测试中，本文给出了图片真正的分类，然后更具真是的类比，预测bounding box；而不是采用先预测分类，在预测bounding box的方法” 。</span></p>
+    
+        
+</div>		</article>
+
+			   
+	</section>
+	
+	
+              
+
+
+
+
+	
+
+       	  <div class="box">
+              <div class="boxtitle">更多相关文章</div>
+              <div class="boxcontent">
+                   <ul>
+  						
+	    		
+		    <li class="clearfix">
+				<div class="boxcont-post">
+					<a href="http://www.lxway.com/954194214.htm" class="img-thumbnail pull-left imgmargin"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/329e0e3947d55d66489fa79f5d9c6115.jpg" alt="深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition" title="深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition" data-bd-imgshare-binded="1"></a>
+			    	<div class="boxcont-title">
+				    	<a href="http://www.lxway.com/954194214.htm" rel="bookmark" class="title">深度学习研究理解：Very Deep Convolutional Networks for Large-Scale Image Recognition</a>
+			    	</div>
+					<div class="boxcont-content">
+						原文:http://blog.csdn.net/whiteinblue/article/details/43560491本文是牛津大学 visual geometry group(VGG)Karen Simonyan 和Andrew Zisserman 于14年撰写的论文,主要探讨了深度对于网络的重 ...					</div>
+				</div>
+		    </li>
+		
+		 		 
+						
+	    		 
+
+		    <li class="clearfix">
+				<div class="boxcont-post">
+			    	<div class="boxcont-title">
+				    	<a href="http://www.lxway.com/461442562.htm" rel="bookmark" class="title">Very Deep Convolutional Networks for LargeScale Image Recognition</a>
+			    	</div>
+					<div class="boxcont-content">
+						Very Deep Convolutional Networks for Large-Scale Image Recognition Karen Simonyan,&nbsp;Andrew Zisserman In this work we investigate the effect of the conv ...					</div>
+				</div>
+		    </li>
+		
+		
+		
+		 		 
+								
+	    		
+		    <li class="clearfix">
+				<div class="boxcont-post">
+					<a href="http://www.lxway.com/505296691.htm" class="img-thumbnail pull-left imgmargin"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/3e595d1e88a515d644b2eb735d2d8d4c.png" alt="深度学习研究理解4：ImageNet Classification with Deep Convolutional Neural Network" title="深度学习研究理解4：ImageNet Classification with Deep Convolutional Neural Network" data-bd-imgshare-binded="1"></a>
+			    	<div class="boxcont-title">
+				    	<a href="http://www.lxway.com/505296691.htm" rel="bookmark" class="title">深度学习研究理解4：ImageNet Classification with Deep Convolutional Neural Network</a>
+			    	</div>
+					<div class="boxcont-content">
+						本文是Alex和Hinton参加ILSVRC2012比赛的卷积网络论文,本网络结构也是开启Imagenet数据集更大,更深CNN的开山之作,本文对CNN的一些改进成为以后CNN网络通用的结构:在一些报告中被称为Alex-net,之后在Imagenet上取得更好结果的ZF-net,SPP-net,VG ...					</div>
+				</div>
+		    </li>
+		
+		 		 
+						
+	    		
+		    <li class="clearfix">
+				<div class="boxcont-post">
+					<a href="http://www.lxway.com/505294296.htm" class="img-thumbnail pull-left imgmargin"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/f916a2a7a7ff3c0355af808345404a11.png" alt="深度学习研究理解7：Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition" title="深度学习研究理解7：Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition" data-bd-imgshare-binded="1"></a>
+			    	<div class="boxcont-title">
+				    	<a href="http://www.lxway.com/505294296.htm" rel="bookmark" class="title">深度学习研究理解7：Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition</a>
+			    	</div>
+					<div class="boxcont-content">
+						本文是MSRA何恺明研究员于14年撰写的论文,主要是把经典的Spatial Pyramid Pooling结构引入CNN中,从而使CNN可以处理任意size和scale的图片:这中方法不仅提升了分类的准确率,而且还非常适合Detection,比经典的RNN快速准确. 一:介绍 目前流行的CNN都需要 ...					</div>
+				</div>
+		    </li>
+		
+		 		 
+						
+	    		
+		    <li class="clearfix">
+				<div class="boxcont-post">
+					<a href="http://www.lxway.com/505294952.htm" class="img-thumbnail pull-left imgmargin"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/93a16889dfe0917d736248f604aa4ebb.png" alt="深度学习研究理解5：Visualizing and Understanding Convolutional Networks" title="深度学习研究理解5：Visualizing and Understanding Convolutional Networks" data-bd-imgshare-binded="1"></a>
+			    	<div class="boxcont-title">
+				    	<a href="http://www.lxway.com/505294952.htm" rel="bookmark" class="title">深度学习研究理解5：Visualizing and Understanding Convolutional Networks</a>
+			    	</div>
+					<div class="boxcont-content">
+						Visualizing and understandingConvolutional Networks 本文是Matthew D.Zeiler 和Rob Fergus于(纽约大学)13年撰写的论文,主要通过Deconvnet(反卷积)来可视化卷积网络,来理解卷积网络,并调整卷积网络:本文通过Deco ...					</div>
+				</div>
+		    </li>
+		
+		 		 
+						
+	    		 
+
+		    <li class="clearfix">
+				<div class="boxcont-post">
+			    	<div class="boxcont-title">
+				    	<a href="http://www.lxway.com/906684612.htm" rel="bookmark" class="title">CVPR 2015 之深度学习篇 Part 2 － deep learning在计算机视觉各个子领域的应用</a>
+			    	</div>
+					<div class="boxcont-content">
+						CVPR 2015 之深度学习篇 Part 2 - deep learning在计算机视觉各个子领域的应用Image Classification (图像分类)deep learning 的腾飞归功于其在 image classification 上的巨大成功.2012年的 AlexNet 的分类效 ...					</div>
+				</div>
+		    </li>
+		
+		
+		
+		 		 
+						
+	    		
+		    <li class="clearfix">
+				<div class="boxcont-post">
+					<a href="http://www.lxway.com/461442904.htm" class="img-thumbnail pull-left imgmargin"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/33f62eb5b868c3821f318f27569aa1e0.png" alt="Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition" title="Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition" data-bd-imgshare-binded="1"></a>
+			    	<div class="boxcont-title">
+				    	<a href="http://www.lxway.com/461442904.htm" rel="bookmark" class="title">Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition</a>
+			    	</div>
+					<div class="boxcont-content">
+						Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun&nbsp; The 13th European ...					</div>
+				</div>
+		    </li>
+		
+		 		 
+						
+	    		
+		    <li class="clearfix">
+				<div class="boxcont-post">
+					<a href="http://www.lxway.com/849215564.htm" class="img-thumbnail pull-left imgmargin"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/85fe8e113a53f12bfdc7a7c6a2e83aec.png" alt="Image SuperResolution Using Deep Convolutional Networks" title="Image SuperResolution Using Deep Convolutional Networks" data-bd-imgshare-binded="1"></a>
+			    	<div class="boxcont-title">
+				    	<a href="http://www.lxway.com/849215564.htm" rel="bookmark" class="title">Image SuperResolution Using Deep Convolutional Networks</a>
+			    	</div>
+					<div class="boxcont-content">
+						Image Super-Resolution Using Deep Convolutional Networks Chao Dong, Chen Change Loy, Kaiming He, Xiaoou Tang Department of Informaiton Engineering, Th ...					</div>
+				</div>
+		    </li>
+		
+		 		 
+		  
+  
+                  </ul>
+              </div>
+          </div>
+
+
+		
+        </div>
+        
+        <div class="col-md-4">
+             <div class="row">
+    
+<script type="text/javascript">
+    /*Lxway.com side-Top 336*280*/
+    var cpro_id = "u2328363";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+
+</div>
+<div class="box">
+    <div class="boxtitle">一周排行</div>
+    <div class="boxcontent">
+         <ul>
+            			                 
+		        	<li class="clearfix">
+			        	<div class="boxcont-post">
+			    	        <div class="boxcont-title"><i class="icon-book"></i>
+				    	        <a href="http://www.lxway.com/25590002.htm" rel="bookmark" class="title">
+
+
+    		    为什么我把javaweb工程放上了服务器上运行不了的？</a>
+			            	</div>
+				        	<div class="boxcont-content">
+			            	最近把微信这个web工程从百度云上的bae上搬回自己的公司上,但是安装环境和验证微信上的URL却花了我两天的时间.当我把服务器弄好后,也配置好了java的运行的环境,一开始我还以为web工程是javaEE,要找jav ...				        	</div>
+			         	</div>
+		            </li>
+                 			                 
+		        	<li class="clearfix">
+			        	<div class="boxcont-post">
+			    	        <div class="boxcont-title"><i class="icon-book"></i>
+				    	        <a href="http://www.lxway.com/404105982.htm" rel="bookmark" class="title">jquery.query.js 插件（示例及简单应用）</a>
+			            	</div>
+				        	<div class="boxcont-content">
+			            	帮助文档 var url = location.search;&nbsp;&gt; "?action=view&amp;section=info&amp;id=123&amp;debug&amp;testy[]=tr ...				        	</div>
+			         	</div>
+		            </li>
+                 			                 
+		        	<li class="clearfix">
+			        	<div class="boxcont-post">
+			    	        <div class="boxcont-title"><i class="icon-book"></i>
+				    	        <a href="http://www.lxway.com/450881986.htm" rel="bookmark" class="title">selenium如何解决IE自动填充表单问题</a>
+			            	</div>
+				        	<div class="boxcont-content">
+			            	有时候用selenium会碰到自动填充表单的问题,如输入用户名后,密码自动填充,此时再填充密码会导致登录失败,解决办法:每个输入框都调用clear()方法				        	</div>
+			         	</div>
+		            </li>
+                 			                 
+		        	<li class="clearfix">
+			        	<div class="boxcont-post">
+			    	        <div class="boxcont-title"><i class="icon-book"></i>
+				    	        <a href="http://www.lxway.com/645256254.htm" rel="bookmark" class="title">
+
+
+    		    读书笔记101个shell脚本 之#11炫</a>
+			            	</div>
+				        	<div class="boxcont-content">
+			            	今天这个案例很酷,是用来控制输出的颜色的. The Code #!/bin/sh # ANSI Color -- Use these variables to make output in different col ...				        	</div>
+			         	</div>
+		            </li>
+                 			                 
+		        	<li class="clearfix">
+			        	<div class="boxcont-post">
+			    	        <div class="boxcont-title"><i class="icon-book"></i>
+				    	        <a href="http://www.lxway.com/680459141.htm" rel="bookmark" class="title">
+
+
+    		    推荐给系统结构方向研究生读的书</a>
+			            	</div>
+				        	<div class="boxcont-content">
+			            	推荐给系统结构方向研究生读的书 一.深入理解计算机系统 Computer Systems: A Programmer's Perspective Computer System-AProgramerPerspecti ...				        	</div>
+			         	</div>
+		            </li>
+                 			                 
+		        	<li class="clearfix">
+		        		<div class="boxcont-post">
+				        <a href="http://www.lxway.com/581250554.htm" class="thumbnail"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/17cb935496574ac55d0a9f5145d7d4e6.jpg" alt="简单熟悉eclipse" title="简单熟悉eclipse" data-bd-imgshare-binded="1"></a>
+				        <div class="info">
+				        	<div class="boxcont-title"><i class="icon-book"></i>
+				    	        <a href="http://www.lxway.com/581250554.htm" rel="bookmark" class="title">简单熟悉eclipse</a>
+			            	</div>
+					        <div class="boxcont-content">
+			            						        </div>
+				       </div>
+				       </div>
+		        	</li>
+                			                 
+		        	<li class="clearfix">
+			        	<div class="boxcont-post">
+			    	        <div class="boxcont-title"><i class="icon-book"></i>
+				    	        <a href="http://www.lxway.com/562118656.htm" rel="bookmark" class="title">动态生成Gallery控件组合实现无限循环自动播放广告图片效果总结</a>
+			            	</div>
+				        	<div class="boxcont-content">
+			            	一.动态生成布局 1.动态加入RadioGroup,并动态设置布局方式: LinearLayout&nbsp;indicator&nbsp;=&nbsp;new&nbsp;LinearLayout(context); int&nbsp;heightPX&nbsp;=&nbsp;(int ...				        	</div>
+			         	</div>
+		            </li>
+                 			                 
+		        	<li class="clearfix">
+			        	<div class="boxcont-post">
+			    	        <div class="boxcont-title"><i class="icon-book"></i>
+				    	        <a href="http://www.lxway.com/520196926.htm" rel="bookmark" class="title">
+
+
+    		    java之I/O流</a>
+			            	</div>
+				        	<div class="boxcont-content">
+			            	数据流(Stream)是指数据通信的通道. Java程序中对数据的输入.输出操作是以流的方式进行的,JDK又提供了各种流类,来获取不同种类的的数据. 流的分类: 按流向分 ·输入流:从文件.网络.内存等(数据源)到程 ...				        	</div>
+			         	</div>
+		            </li>
+                 			                 
+		        	<li class="clearfix">
+		        		<div class="boxcont-post">
+				        <a href="http://www.lxway.com/206064162.htm" class="thumbnail"><img src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/11ceb45079d8c9de3036bf9fbfc138bc.jpg" alt="
+
+
+    		    淘宝技术这十年（淘宝技术大学校长解密淘宝十年）" title="
+
+
+    		    淘宝技术这十年（淘宝技术大学校长解密淘宝十年）" data-bd-imgshare-binded="1"></a>
+				        <div class="info">
+				        	<div class="boxcont-title"><i class="icon-book"></i>
+				    	        <a href="http://www.lxway.com/206064162.htm" rel="bookmark" class="title">
+
+
+    		    淘宝技术这十年（淘宝技术大学校长解密淘宝十年）</a>
+			            	</div>
+					        <div class="boxcont-content">
+			            	淘宝技术这十年(淘宝技术大学校长解密淘宝十年) 子柳 著 ISBN - ...					        </div>
+				       </div>
+				       </div>
+		        	</li>
+                			                 
+		        	<li class="clearfix">
+			        	<div class="boxcont-post">
+			    	        <div class="boxcont-title"><i class="icon-book"></i>
+				    	        <a href="http://www.lxway.com/212921451.htm" rel="bookmark" class="title">在Swift中自定义下标Subscripts</a>
+			            	</div>
+				        	<div class="boxcont-content">
+			            	通常情况下,我们在使用数组(Array)或字典(Dictionary)时会使用到下标.其实在Swift中,我们还可以给类(class)自定义下标,下面就让我们来看看Swift中是如何自定义下标的.通过Subscrip ...				        	</div>
+			         	</div>
+		            </li>
+                 			        </ul>
+    </div>
+</div>
+
+<div class="box">
+    <div class="boxtitle">Tags</div>
+    <div class="boxcontent">
+    	<div class="tags">
+            <a href="http://www.lxway.com/tag/grep-b/" class="tag-link-106437" title="1 topics" rel="tag" style="font-size: 11px; color:#CE1D14;">grep&nbsp;-B</a>
+<a href="http://www.lxway.com/tag/ip%e5%9c%b0%e5%9d%80%e7%ae%a1%e7%90%86/" class="tag-link-96130" title="1 topics" rel="tag" style="font-size: 11px; color:#7B165D;">IP地址管理</a>
+<a href="http://www.lxway.com/tag/jstl%e7%89%88%e6%9c%ac%e9%94%99%e8%af%af/" class="tag-link-153954" title="1 topics" rel="tag" style="font-size: 11px; color:#B7AB9C;">jstl版本错误</a>
+<a href="http://www.lxway.com/tag/mysqldump%e5%a4%87%e4%bb%bd%e8%bf%98%e5%8e%9f%e5%92%8cmysqldump%e5%af%bc%e5%85%a5%e5%af%bc%e5%87%ba%e8%af%ad%e5%8f%a5%e5%a4%a7%e5%85%a8%e8%af%a6%e8%a7%a3-%e8%bd%ac/" class="tag-link-132491" title="1 topics" rel="tag" style="font-size: 11px; color:#C7C5CD;">mysqldump备份还原和mysqldump导入导出语句大全详解&nbsp;转</a>
+<a href="http://www.lxway.com/tag/mysql%e4%b8%bb%e5%ba%93%e4%bf%ae%e6%94%b9procedure%e5%ad%98%e5%82%a8%e5%af%bc%e8%87%b4%e4%b8%bb%e4%bb%8e%e4%b8%8d%e5%90%8c%e6%ad%a5/" class="tag-link-122454" title="1 topics" rel="tag" style="font-size: 11px; color:#367C97;">mysql主库修改PROCEDURE存储导致主从不同步</a>
+<a href="http://www.lxway.com/tag/x509certificate/" class="tag-link-26549" title="1 topics" rel="tag" style="font-size: 11px; color:#1B5DD9;">X509Certificate</a>
+<a href="http://www.lxway.com/tag/%e4%b8%ba%e5%a4%a7%e4%ba%8e%e5%85%b6%e7%bb%86/" class="tag-link-78738" title="1 topics" rel="tag" style="font-size: 11px; color:#2DA9D8;">为大于其细</a>
+<a href="http://www.lxway.com/tag/%e5%95%86%e4%b8%9a%e5%bb%ba%e7%ad%91/" class="tag-link-17848" title="1 topics" rel="tag" style="font-size: 11px; color:#B61466;">商业建筑</a>
+<a href="http://www.lxway.com/tag/%e5%b8%b8%e7%94%a8shell%e8%84%9a%e6%9c%ac/" class="tag-link-106254" title="1 topics" rel="tag" style="font-size: 11px; color:#254C6D;">常用shell脚本</a>
+<a href="http://www.lxway.com/tag/%e8%80%85%e4%b8%ad%e7%ba%a7%e7%a8%8b%e5%ba%8f%e5%91%98/" class="tag-link-50771" title="1 topics" rel="tag" style="font-size: 11px; color:#69E13C;">者中级程序员</a>	    	<a href="http://www.lxway.com/1837557.html" class="stag-link-1837557" title="请鬼拿药单" rel="stag" style="font-size: 11px; color:#48B557;">请鬼拿药单</a>
+<a href="http://www.lxway.com/2470121.html" class="stag-link-2470121" title="如何优化逻辑回归" rel="stag" style="font-size: 11px; color:#1B7135;">如何优化逻辑回归</a>
+<a href="http://www.lxway.com/2503837.html" class="stag-link-2503837" title="五个迈上新台阶内容" rel="stag" style="font-size: 11px; color:#3E8873;">五个迈上新台阶内容</a>
+<a href="http://www.lxway.com/2575862.html" class="stag-link-2575862" title="门萨测试18题解答" rel="stag" style="font-size: 11px; color:#70D8D5;">门萨测试18题解答</a>
+<a href="http://www.lxway.com/1574219.html" class="stag-link-1574219" title="hibernate count 1" rel="stag" style="font-size: 11px; color:#7A3759;">hibernate count 1</a>
+<a href="http://www.lxway.com/1303935.html" class="stag-link-1303935" title="it15 云台" rel="stag" style="font-size: 11px; color:#8395D8;">it15 云台</a>
+<a href="http://www.lxway.com/445368.html" class="stag-link-445368" title="java thread 启动" rel="stag" style="font-size: 11px; color:#2A4862;">java thread 启动</a>
+<a href="http://www.lxway.com/497914.html" class="stag-link-497914" title="文章管理系统" rel="stag" style="font-size: 11px; color:#9E9E84;">文章管理系统</a>
+<a href="http://www.lxway.com/1262740.html" class="stag-link-1262740" title="苹果系统安装步骤" rel="stag" style="font-size: 11px; color:#911A39;">苹果系统安装步骤</a>
+<a href="http://www.lxway.com/397933.html" class="stag-link-397933" title="暗黑3第四赛季任务" rel="stag" style="font-size: 11px; color:#649478;">暗黑3第四赛季任务</a>		</div>
+    </div>
+</div>	
+        </div>
+        
+    </div>
+</div>
+<footer>
+    <div class="link">
+        <div align="center">
+        <a href="http://www.lxway.com/">首页</a> | 
+        <a href="http://www.lxway.com/about/about/">关于我们</a> | 
+        <a href="http://www.lxway.com/about/contact/">联系我们</a> | 
+        <a href="http://www.lxway.com/505298251.htm#">网站地图</a> | 
+        <a href="http://www.lxway.com/505298251.htm#">工作机会</a>
+        </div>   
+    </div>
+    <div class="copyright">
+        <div align="center">
+            <p>Copyright ©2015  蓝讯 All Rights Reserved.</p> 
+            <p><a href="http://www.miitbeian.gov.cn/" target="_blank">苏ICP备12049786号</a> info@ lxway.com</p> 
+        </div>
+    </div>
+</footer>
+<script src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/js.js"></script>
+<script src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/jquery.min.js"></script>
+<script src="./深度学习研究理解10：Very Deep Convolutional Networks for LargeScale Image Recognition - 蓝讯_files/bootstrap.min.js"></script>
+
+<!--ta分享代码-->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["copy","print"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","sqq","tieba","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","sqq","tieba","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<iframe frameborder="0" id="bdSharePopup_selectshare1451237241467bg" class="bdselect_share_bg" style="top: 5079px; left: 682px; width: 135px; height: 76px;"></iframe><div id="bdSharePopup_selectshare1451237241467box" style="top: 5079px; left: 682px; width: 135px;" share-type="selectshare" class="bdselect_share_box" data-bd-bind="1451237241467"><div class="selectshare-mod-triangle"><div class="triangle-border"></div><div class="triangle-inset"></div></div><div class="bdselect_share_head" style="width: 135px;"><span>分享到</span><a href="http://www.baidu.com/s?wd=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%A0%94%E7%A9%B6%E7%90%86%E8%A7%A34%EF%BC%9AImageNet%20Classification%20with%20Deep%20Convolutional%20Neural%20Network&amp;tn=SE_hldp08010_vurs2xrp" class="bdselect_share_dialog_search" target="_blank"><i class="bdselect_share_dialog_search_i"></i><span class="bdselect_share_dialog_search_span" style="display: none;">百度一下</span></a><a class="bdselect_share_dialog_close"></a></div><div class="bdselect_share_content"><ul class="bdselect_share_list bdshare-button-style1-16"><div class="bdselect_share_partners"><a href="http://www.lxway.com/505298251.htm#" class="bds_qzone" data-cmd="qzone"></a><a href="http://www.lxway.com/505298251.htm#" class="bds_sqq" data-cmd="sqq"></a><a href="http://www.lxway.com/505298251.htm#" class="bds_tieba" data-cmd="tieba"></a><a href="http://www.lxway.com/505298251.htm#" class="bds_weixin" data-cmd="weixin"></a></div><a href="http://www.lxway.com/505298251.htm#" class="bds_more" data-cmd="more"></a></ul></div></div><div id="bdimgshare_1451237241473" class="sr-bdimgshare sr-bdimgshare-list sr-bdimgshare-16 sr-bdimgshare-black" style="height: 36px; line-height: 26px; font-size: 12px; position: absolute; top: 2392px; left: 38.5px; width: 600px;" data-bd-bind="1451237241473"><div class="bdimgshare-bg"></div><div class="bdimgshare-content bdsharebuttonbox bdshare-button-style0-16"><label class="bdimgshare-lbl">分享到：</label><a href="http://www.lxway.com/505298251.htm#" onclick="return false;" class="bds_qzone" data-cmd="qzone" hidefocus=""></a><a href="http://www.lxway.com/505298251.htm#" onclick="return false;" class="bds_sqq" data-cmd="sqq" hidefocus=""></a><a href="http://www.lxway.com/505298251.htm#" onclick="return false;" class="bds_tieba" data-cmd="tieba" hidefocus=""></a><a href="http://www.lxway.com/505298251.htm#" onclick="return false;" class="bds_weixin" data-cmd="weixin" hidefocus=""></a><a href="http://www.lxway.com/505298251.htm#" onclick="return false;" class="bds_more" data-cmd="more" hidefocus=""></a></div></div></body></html>
